@@ -20,23 +20,28 @@ public class ReservaService {
     }
 
     public Reserva guardarReserva(Reserva reserva) {
-        
+        // Comprobar que existe un horario disponible para la fecha/hora indicada
+        var horarioOpt = horarioRepository.findByFechaAndHora(reserva.getFecha(), reserva.getHora());
+        if (horarioOpt.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No existe un horario para esa fecha y hora.");
+        }
+
+        var horario = horarioOpt.get();
+        if (!horario.isDisponible()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El horario no está disponible.");
+        }
+
+        // Evitar duplicados de reserva
         boolean existe = reservaRepository.existsByFechaAndHora(reserva.getFecha(), reserva.getHora());
-        //En caso de que exista lanzo un error y no se guarda la reserva, 
-        // si no existe se guarda.
         if (existe) {
             throw new ResponseStatusException(HttpStatus.CONFLICT,
                     "Ya existe una reserva para esa fecha y hora.");
         }
-        horarioRepository.findAll().stream()
-                .filter(horario -> horario.getHora().equals(reserva.getHora())
-                && horario.getFecha().equals(reserva.getFecha()))
-                .findFirst()
-                .ifPresent(horario -> {
-                    horario.setDisponible(false);
-                    horarioRepository.save(horario);
-                });
-        
+
+        // Marcar horario como no disponible y guardar la reserva
+        horario.setDisponible(false);
+        horarioRepository.save(horario);
+
         return reservaRepository.save(reserva);
     }
 

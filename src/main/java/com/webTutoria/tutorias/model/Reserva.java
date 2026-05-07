@@ -1,4 +1,5 @@
 package com.webTutoria.tutorias.model;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
@@ -23,7 +24,9 @@ public class Reserva {
     private Long id;
 
     private String nombreAlumno;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate fecha;
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime hora;
 
 }

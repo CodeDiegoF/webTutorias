@@ -21,6 +21,10 @@ public class HorarioService {
         return horarioRepository.findAll();
     }
 
+    public List<Horario> obtenerHorariosDisponibles() {
+        return horarioRepository.findByDisponibleTrue();
+    }
+
     public void eliminarHorario(Long id) {
         horarioRepository.deleteById(id);
     }
