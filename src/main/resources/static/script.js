@@ -4,9 +4,10 @@ const reservaForm = document.getElementById("reserva-form");
 const fechaInput = document.getElementById("fecha");
 const horaInput = document.getElementById("hora");
 
+
 async function cargarHorarios() {
 
-    const response = await fetch("/horarios");
+    const response = await fetch("http://localhost:8080/horarios");
     const horarios = await response.json();
 
     horariosContainer.innerHTML = "";
@@ -40,9 +41,10 @@ reservaForm.addEventListener("submit", async (e) => {
         hora: horaInput.value
     };
 
-    const response = await fetch("/reservas", {
+    const response = await fetch("http://localhost:8080/reservas", {
         method: "POST",
         headers: {
+            "Accept" : "application/json",
             "Content-Type": "application/json"
         },
         body: JSON.stringify(reserva)
@@ -53,11 +55,11 @@ reservaForm.addEventListener("submit", async (e) => {
 
         reservaForm.reset();
 
-        cargarHorarios();
+        await cargarHorarios();
     } else {
         const error = await response.text();
         alert(error);
     }
 });
 
-cargarHorarios();
+cargarHorarios().then(() => console.log("Horarios cargados"));
