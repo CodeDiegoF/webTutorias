@@ -1,7 +1,10 @@
 package com.webTutoria.tutorias.controller;
 import com.webTutoria.tutorias.model.Horario;
 import com.webTutoria.tutorias.service.HorarioService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -15,12 +18,24 @@ public class HorarioController {
     }
 
     @PostMapping
-    public Horario establecerHorarios(@RequestBody Horario horario) {
-        return this.horarioService.guardarHorario(horario);
+    public ResponseEntity<List<Horario>> guardarHorarios(@RequestBody List<Horario> horarios) {
+        List<Horario> horariosGuardados = horarioService.guardarTodos(horarios);
+        return ResponseEntity.ok(horariosGuardados);
     }
 
     @GetMapping
-    public List<Horario> getHorarios(){
+    public List<Horario> verHorariosDisponibles(){
         return horarioService.obtenerHorarios();
+    }
+
+    @GetMapping("/admin")
+    public List<Horario> obtenerHorarios(){
+        return horarioService.obtenerHorarios();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Horario> eliminarHorario(@PathVariable Long id) {
+        horarioService.eliminarHorario(id);
+        return ResponseEntity.noContent().build();
     }
 }

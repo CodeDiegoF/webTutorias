@@ -23,4 +23,9 @@ public class ReservaController {
     public List<Reserva> obtenerReservas() {
         return reserva.obtenerReservas();
     }
+
+    @GetMapping("/admin")
+    public List<Reserva> obtenerReservasAdmin() {
+        return reserva.obtenerReservas();
+    }
 }
