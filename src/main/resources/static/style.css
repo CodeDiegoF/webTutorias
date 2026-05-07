@@ -1,0 +1,30 @@
+body {
+    color: hsl(57, 91%, 50%);
+    background: hsla(0, 0%, 0%, 0.54);
+}
+
+.container {
+    position: fixed;
+    margin: 150px;
+    left: 25%;
+    padding: 10px 10px 50px 5px;
+    width: 500px;
+    line-height: 25px;
+    color: #dcb800;
+    text-shadow: 0 1px 1px #000000;
+    background-color: #0c0800;
+    background-image:
+            radial-gradient(
+                    circle at center,
+                    rgba(10, 10, 10) 0%,
+                    rgba(19, 19, 0.4) 90%
+            );
+
+    border: 5px solid rgba(238, 214, 4, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 0 10px white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
