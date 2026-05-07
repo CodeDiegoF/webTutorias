@@ -3,6 +3,8 @@ import com.webTutoria.tutorias.model.Reserva;
 import com.webTutoria.tutorias.repositorio.HorarioRepository;
 import com.webTutoria.tutorias.repositorio.ReservaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -23,7 +25,8 @@ public class ReservaService {
         //En caso de que exista lanzo un error y no se guarda la reserva, 
         // si no existe se guarda.
         if (existe) {
-            throw new RuntimeException("Ya existe una reserva para esa fecha y hora.");
+            throw new ResponseStatusException(HttpStatus.CONFLICT,
+                    "Ya existe una reserva para esa fecha y hora.");
         }
         horarioRepository.findAll().stream()
                 .filter(horario -> horario.getHora().equals(reserva.getHora())

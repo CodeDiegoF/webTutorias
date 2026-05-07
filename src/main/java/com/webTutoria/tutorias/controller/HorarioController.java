@@ -3,8 +3,6 @@ import com.webTutoria.tutorias.model.Horario;
 import com.webTutoria.tutorias.service.HorarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -34,7 +32,7 @@ public class HorarioController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Horario> eliminarHorario(@PathVariable Long id) {
+    public ResponseEntity<Void> eliminarHorario(@PathVariable Long id) {
         horarioService.eliminarHorario(id);
         return ResponseEntity.noContent().build();
     }
