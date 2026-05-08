@@ -37,7 +37,6 @@ reservaForm.addEventListener("submit", async (e) => {
 
     const reserva = {
         nombreAlumno: document.getElementById("nombreAlumno").value,
-        emailAlumno: document.getElementById("emailAlumno").value,
         fecha: fechaInput.value.trim(),
         hora: horaInput.value.trim()
     };

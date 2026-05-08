@@ -50,6 +50,16 @@ public class ReservaService {
     }
 
     public void eliminarReserva(Long id) {
+        Reserva reserva = reservaRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Reserva no encontrada."));
+
+        horarioRepository.findByFechaAndHora(reserva.getFecha(), reserva.getHora())
+                .ifPresent(horario -> {
+                    horario.setDisponible(true);
+                    horarioRepository.save(horario);
+                });
+
         reservaRepository.deleteById(id);
     }
 }

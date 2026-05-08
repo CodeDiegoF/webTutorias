@@ -57,8 +57,8 @@ horarioForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const horario = {
-        fecha:      fechaInput.value.trim(),
-        hora:       horaInput.value.trim(),
+        fecha: fechaInput.value.trim(),
+        hora: horaInput.value.trim(),
         disponible: true
     };
 
@@ -89,6 +89,7 @@ async function eliminarHorario(id) {
 
     if (response.ok) {
         await cargarHorarios();
+        await cargarReservas();
     } else {
         alert("Error al eliminar el horario.");
     }
