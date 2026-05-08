@@ -24,6 +24,7 @@ public class Reserva {
     private Long id;
 
     private String nombreAlumno;
+    private String emailAlumno;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate fecha;
     @JsonFormat(pattern = "HH:mm")

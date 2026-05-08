@@ -13,8 +13,8 @@ public class HorarioService {
         this.horarioRepository = horarioRepository;
     }
 
-    public List<Horario> guardarTodos(List<Horario> horarios) {
-        return horarioRepository.saveAll(horarios);
+    public Horario guardarHorario(Horario horario) {
+        return horarioRepository.save(horario);
     }
 
     public List<Horario> obtenerHorarios() {

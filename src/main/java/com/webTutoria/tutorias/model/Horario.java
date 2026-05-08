@@ -9,7 +9,6 @@ import java.time.LocalTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Horario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

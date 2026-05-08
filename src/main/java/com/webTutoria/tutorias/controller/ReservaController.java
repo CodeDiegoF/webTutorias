@@ -16,8 +16,22 @@ public class ReservaController {
     }
 
     @PostMapping
-    public Reserva crearReserva(@RequestBody Reserva reserva) {
-        return this.reservaService.guardarReserva(reserva);
+    public ResponseEntity<?> crearReserva(@RequestBody Reserva reserva) {
+
+        try {
+
+            Reserva nueva = reservaService.guardarReserva(reserva);
+
+            return ResponseEntity.ok(nueva);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(e.getMessage());
+        }
     }
 
     @GetMapping

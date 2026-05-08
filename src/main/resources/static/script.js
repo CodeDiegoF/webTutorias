@@ -37,9 +37,11 @@ reservaForm.addEventListener("submit", async (e) => {
 
     const reserva = {
         nombreAlumno: document.getElementById("nombreAlumno").value,
-        fecha: fechaInput.value,
-        hora: horaInput.value
+        emailAlumno: document.getElementById("emailAlumno").value,
+        fecha: fechaInput.value.trim(),
+        hora: horaInput.value.trim()
     };
+
 
     const response = await fetch("http://localhost:8080/reservas", {
         method: "POST",

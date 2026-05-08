@@ -1,5 +1,6 @@
 package com.webTutoria.tutorias.controller;
 import com.webTutoria.tutorias.model.Horario;
+import com.webTutoria.tutorias.model.Reserva;
 import com.webTutoria.tutorias.service.HorarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,14 +17,25 @@ public class HorarioController {
     }
 
     @PostMapping
-    public ResponseEntity<List<Horario>> guardarHorarios(@RequestBody List<Horario> horarios) {
-        List<Horario> horariosGuardados = horarioService.guardarTodos(horarios);
-        return ResponseEntity.ok(horariosGuardados);
+    public ResponseEntity<?> guardarHorarios(@RequestBody Horario horario) {
+        try {
+
+            Horario horarioGuardado = horarioService.guardarHorario(horario);
+            return ResponseEntity.ok(horarioGuardado);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(e.getMessage());
+        }
     }
 
     @GetMapping
     public List<Horario> verHorariosDisponibles(){
-        return horarioService.obtenerHorarios();
+        return horarioService.obtenerHorariosDisponibles();
     }
 
     @GetMapping("/admin")

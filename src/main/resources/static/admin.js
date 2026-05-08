@@ -52,8 +52,9 @@ horarioForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const horario = {
-        fecha: document.getElementById("fecha").value,
-        hora: document.getElementById("hora").value
+        fecha: fechaInput.value.trim(),
+        hora: horaInput.value.trim(),
+        disponible: true
     };
 
     const response = await fetch("http://localhost:8080/horarios", {
