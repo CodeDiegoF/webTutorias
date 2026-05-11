@@ -83,11 +83,10 @@ reservaForm.addEventListener("submit", async (e) => {
     });
 
     if (response.ok) {
+        sessionStorage.setItem("emailAlumno", email);
         alert("Reserva realizada");
         reservaForm.reset();
-
-        // Tras reservar, recarga horarios y panel de reservas del alumno.
-        await cargarHorarios();
+        await cargarHorarios()
         await cargarMisReservas(email);
     } else {
         const error = await response.text();
@@ -97,3 +96,8 @@ reservaForm.addEventListener("submit", async (e) => {
 
 // Carga inicial de horarios al abrir la vista.
 cargarHorarios().then(() => console.log("Horarios cargados"));
+cargarMisReservas(emailGuardado).then(() => console.log("Reservas Cargadas"));
+const emailGuardado = sessionStorage.getItem('emailAlumno');
+if (emailGuardado) {
+    cargarMisReservas(emailGuardado).then(() => console.log("Reservas Cargadas"));
+}

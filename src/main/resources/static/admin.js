@@ -110,5 +110,5 @@ async function eliminarHorario(id) {
 }
 
 // ── Carga inicial ─────────────────────────────────────────────────────────────
-cargarHorarios().then(console.log("Horarios cargados"));
-cargarReservas().then(console.log("Reservas Cargadas") );
+cargarHorarios().then(() => console.log("Horarios cargados"));
+cargarReservas().then(() => console.log("Reservas Cargadas"));
