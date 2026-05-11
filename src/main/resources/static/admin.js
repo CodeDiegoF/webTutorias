@@ -5,6 +5,9 @@ const horariosContainer = document.getElementById("horarios-container");
 const reservasContainer = document.getElementById("reservas-container");
 
 // ── Cargar horarios ───────────────────────────────────────────────────────────
+/**
+ * Obtiene todos los horarios para el panel admin y muestra su estado actual.
+ */
 async function cargarHorarios() {
     const response = await fetch("http://localhost:8080/horarios/admin");
     const horarios = await response.json();
@@ -29,6 +32,9 @@ async function cargarHorarios() {
 }
 
 // ── Cargar reservas ───────────────────────────────────────────────────────────
+/**
+ * Carga y pinta las reservas realizadas por los alumnos.
+ */
 async function cargarReservas() {
     const response = await fetch("http://localhost:8080/reservas");
     const reservas = await response.json();
@@ -53,6 +59,9 @@ async function cargarReservas() {
 }
 
 // ── Crear horario ─────────────────────────────────────────────────────────────
+/**
+ * Maneja el envio del formulario para publicar un horario disponible.
+ */
 horarioForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -82,6 +91,11 @@ horarioForm.addEventListener("submit", async (e) => {
 });
 
 // ── Eliminar horario ──────────────────────────────────────────────────────────
+/**
+ * Elimina un horario por id desde el panel administrativo.
+ *
+ * @param {number} id identificador del horario a eliminar.
+ */
 async function eliminarHorario(id) {
     const response = await fetch(`http://localhost:8080/horarios/${id}`, {
         method: "DELETE"

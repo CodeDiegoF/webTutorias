@@ -1,8 +1,13 @@
+// Referencias a elementos del DOM usados por la vista de alumno.
 const horariosContainer = document.getElementById("horarios-container");
 const reservaForm       = document.getElementById("reserva-form");
 const fechaInput        = document.getElementById("fecha");
 const horaInput         = document.getElementById("hora");
 
+/**
+ * Carga los horarios disponibles y permite seleccionar uno para precargar
+ * los campos de fecha y hora del formulario de reserva.
+ */
 async function cargarHorarios() {
     const response = await fetch("http://localhost:8080/horarios");
     const horarios = await response.json();
@@ -24,6 +29,11 @@ async function cargarHorarios() {
     });
 }
 
+/**
+ * Consulta todas las reservas y pinta solo las del email indicado.
+ *
+ * @param {string} emailAlumno correo del alumno autenticado en el formulario.
+ */
 async function cargarMisReservas(emailAlumno) {
     if (!emailAlumno) return;
 
@@ -50,7 +60,7 @@ async function cargarMisReservas(emailAlumno) {
     });
 }
 
-
+// Envio de reserva: valida en backend que el horario exista y este disponible.
 reservaForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -75,6 +85,8 @@ reservaForm.addEventListener("submit", async (e) => {
     if (response.ok) {
         alert("Reserva realizada");
         reservaForm.reset();
+
+        // Tras reservar, recarga horarios y panel de reservas del alumno.
         await cargarHorarios();
         await cargarMisReservas(email);
     } else {
@@ -83,4 +95,5 @@ reservaForm.addEventListener("submit", async (e) => {
     }
 });
 
+// Carga inicial de horarios al abrir la vista.
 cargarHorarios().then(() => console.log("Horarios cargados"));

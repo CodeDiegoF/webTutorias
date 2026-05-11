@@ -7,6 +7,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/reservas")
+/**
+ * Gestiona la API REST de reservas de tutorias.
+ */
 public class ReservaController {
 
     private final ReservaService reservaService;
@@ -15,6 +18,12 @@ public class ReservaController {
         this.reservaService = reservaService;
     }
 
+    /**
+     * Crea una nueva reserva para un alumno.
+     *
+     * @param reserva datos de la reserva solicitada
+     * @return reserva creada o mensaje de error
+     */
     @PostMapping
     public ResponseEntity<?> crearReserva(@RequestBody Reserva reserva) {
 
@@ -34,16 +43,32 @@ public class ReservaController {
         }
     }
 
+    /**
+     * Lista todas las reservas existentes.
+     *
+     * @return lista de reservas
+     */
     @GetMapping
     public List<Reserva> obtenerReservas() {
         return reservaService.obtenerReservas();
     }
 
+    /**
+     * Endpoint de administracion que devuelve todas las reservas.
+     *
+     * @return lista completa de reservas
+     */
     @GetMapping("/admin")
     public List<Reserva> obtenerReservasAdmin() {
         return reservaService.obtenerReservas();
     }
 
+    /**
+     * Elimina una reserva y libera su horario asociado si existe.
+     *
+     * @param id identificador de la reserva
+     * @return respuesta HTTP 204 sin contenido
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarReserva(@PathVariable Long id) {
         reservaService.eliminarReserva(id);

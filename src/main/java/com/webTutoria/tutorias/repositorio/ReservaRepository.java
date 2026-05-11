@@ -5,14 +5,20 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Optional;
 
-/*Gracias a JpaRepository proporciona métodos CRUD básicos,
-  por lo que no sería necesario definirlos aquí.
+/**
+ * Repositorio JPA para la entidad {@link Reserva}.
+ * JpaRepository ya aporta operaciones CRUD basicas.
  */
 public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 
-    //Con este metodo compruevo si existe una reserva o no
+    /**
+     * Comprueba si ya existe una reserva para la fecha y hora indicadas.
+     */
     boolean existsByFechaAndHora(LocalDate fecha, LocalTime hora);
 
+    /**
+     * Recupera la reserva para una fecha/hora exacta, si existe.
+     */
     Optional<Reserva> findByFechaAndHora(LocalDate fecha, LocalTime hora);
 }
 

@@ -1,6 +1,5 @@
 package com.webTutoria.tutorias.service;
 import com.webTutoria.tutorias.model.Horario;
-import com.webTutoria.tutorias.model.Reserva;
 import com.webTutoria.tutorias.repositorio.HorarioRepository;
 import com.webTutoria.tutorias.repositorio.ReservaRepository;
 import org.springframework.http.HttpStatus;
@@ -10,6 +9,9 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
+/**
+ * Contiene la logica de negocio asociada a la gestion de horarios de tutoria.
+ */
 public class HorarioService {
 
     private final HorarioRepository horarioRepository;
@@ -20,18 +22,31 @@ public class HorarioService {
         this.reservaRepository = reservaRepository;
     }
 
+    /**
+     * Guarda un nuevo horario publicado por el profesor.
+     */
     public Horario guardarHorario(Horario horario) {
         return horarioRepository.save(horario);
     }
 
+    /**
+     * Obtiene todos los horarios, incluidos ocupados y disponibles.
+     */
     public List<Horario> obtenerHorarios() {
         return horarioRepository.findAll();
     }
 
+    /**
+     * Obtiene unicamente los horarios disponibles para alumnos.
+     */
     public List<Horario> obtenerHorariosDisponibles() {
         return horarioRepository.findByDisponibleTrue();
     }
 
+    /**
+     * Elimina un horario por id. Si existe una reserva en la misma fecha/hora,
+     * primero elimina la reserva para mantener la consistencia.
+     */
     public void eliminarHorario(Long id) {
         Horario horario = horarioRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(

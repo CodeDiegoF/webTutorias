@@ -9,6 +9,9 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
+/**
+ * Gestiona la logica de negocio de reservas y su sincronizacion con horarios.
+ */
 public class ReservaService {
 
     private final ReservaRepository reservaRepository;
@@ -19,8 +22,12 @@ public class ReservaService {
         this.horarioRepository = horarioRepository;
     }
 
+    /**
+     * Crea una reserva validando existencia de horario, disponibilidad y duplicados.
+     * Al reservar, el horario pasa a estado no disponible.
+     */
     public Reserva guardarReserva(Reserva reserva) {
-        // Comprobar que existe un horario disponible para la fecha/hora indicada
+        // Verifica que la fecha/hora solicitada exista en la oferta de horarios.
         var horarioOpt = horarioRepository.findByFechaAndHora(reserva.getFecha(), reserva.getHora());
         if (horarioOpt.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No existe un horario para esa fecha y hora.");
@@ -31,24 +38,30 @@ public class ReservaService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El horario no está disponible.");
         }
 
-        // Evitar duplicados de reserva
+        // Evita dos reservas en el mismo tramo temporal.
         boolean existe = reservaRepository.existsByFechaAndHora(reserva.getFecha(), reserva.getHora());
         if (existe) {
             throw new ResponseStatusException(HttpStatus.CONFLICT,
                     "Ya existe una reserva para esa fecha y hora.");
         }
 
-        // Marcar horario como no disponible y guardar la reserva
+        // Reserva aceptada: marca el horario como ocupado y persiste la reserva.
         horario.setDisponible(false);
         horarioRepository.save(horario);
 
         return reservaRepository.save(reserva);
     }
 
+    /**
+     * Recupera todas las reservas almacenadas.
+     */
     public List<Reserva> obtenerReservas() {
         return reservaRepository.findAll();
     }
 
+    /**
+     * Elimina una reserva y reactiva su horario asociado, si existe.
+     */
     public void eliminarReserva(Long id) {
         Reserva reserva = reservaRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
