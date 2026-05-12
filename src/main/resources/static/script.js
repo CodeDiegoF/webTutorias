@@ -16,7 +16,7 @@ async function cargarHorarios() {
 
     horarios.forEach(horario => {
         const div = document.createElement("div");
-        div.classList.add("horario");
+        div.classList.add("horario-slot", "col-md-3", "col-6");
         div.innerHTML = `
             <strong>${horario.fecha}</strong><br>
             ${horario.hora}
@@ -51,10 +51,16 @@ async function cargarMisReservas(emailAlumno) {
 
     misReservas.forEach(reserva => {
         const div = document.createElement("div");
-        div.classList.add("horario");
+        div.classList.add("reserva-item", "row-md-4", "row-3");
         div.innerHTML = `
-            <strong>${reserva.nombreAlumno}</strong><br>
-            ${reserva.fecha} — ${reserva.hora}
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>${reserva.nombreAlumno}</strong>
+                </div>
+                <div style="font-size:.85rem; color:#aaa">
+                    📅 ${reserva.fecha} &nbsp; 🕐 ${reserva.hora}
+                </div>
+            </div>
         `;
         container.appendChild(div);
     });
