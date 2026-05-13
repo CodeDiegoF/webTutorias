@@ -81,6 +81,19 @@ reservaForm.addEventListener("submit", async (e) => {
         hora:  horaInput.value.trim()
     };
 
+    const result = await Swal.fire({
+        title: "¿Confirmar reserva?",
+        text: `Tutoría el ${reserva.fecha} a las ${reserva.hora}`,
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#0d6efd",
+        cancelButtonColor: "#dc3545",
+        confirmButtonText: "Sí, reservar",
+        cancelButtonText: "Cancelar"
+    });
+
+    if (!result.isConfirmed) return;
+
     const response = await fetch("http://localhost:8080/reservas", {
         method: "POST",
         headers: {
@@ -92,26 +105,71 @@ reservaForm.addEventListener("submit", async (e) => {
 
     if (response.ok) {
         sessionStorage.setItem("emailAlumno", email);
-        alert("Reserva realizada");
-        reservaForm.reset();
-        await cargarHorarios()
-        await cargarMisReservas(email);
-    } else {
-        const error = await response.text();
-        alert(error);
-    }
+
+        Swal.fire({
+            title: "¡Reserva realizada!",
+            text: "Tu tutoría ha sido reservada correctamente.",
+            icon: "success",
+            confirmButtonColor: "#0d6efd",
+            confirmButtonText: "Aceptar"
+        });
+
+            reservaForm.reset();
+
+            await cargarHorarios();
+            await cargarMisReservas(email)
+
+        } else {
+
+            const error = await response.text();
+
+            Swal.fire({
+                title: "Error",
+                text: error,
+                icon: "error",
+                confirmButtonColor: "#dc3545"
+            });
+        }
 });
 
 async function cancelarReserva(id) {
+
+    const result = await Swal.fire({
+        title: "¿Cancelar reserva?",
+        text: "¿Estás seguro de que quieres cancelar esta reserva?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#0d6efd",
+        cancelButtonColor: "#dc3545",
+        confirmButtonText: "Sí, cancelar",
+        cancelButtonText: "Mejor no"
+    });
+
+    if (!result.isConfirmed) return;
+
     const response = await fetch(`http://localhost:8080/reservas/${id}`, {
         method: "DELETE"
     });
 
     if (response.ok) {
+        Swal.fire({
+            title: "¡Reserva cancelada con éxito!",
+            text: "Tu tutoría ha sido cancelada correctamente.",
+            icon: "success",
+            confirmButtonColor: "#0d6efd",
+            confirmButtonText: "Aceptar"
+        });
         await cargarHorarios();
         await cargarMisReservas(sessionStorage.getItem('emailAlumno'));
     } else {
-        alert("Error al cancelar la reserva.");
+        const error = await response.text();
+
+        Swal.fire({
+            title: "Error",
+            text: error,
+            icon: "error",
+            confirmButtonColor: "#dc3545"
+        });
     }
 }
 
