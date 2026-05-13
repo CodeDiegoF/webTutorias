@@ -76,6 +76,19 @@ horarioForm.addEventListener("submit", async (e) => {
         disponible: true
     };
 
+    const result = await Swal.fire({
+        title: "¿Confirmar horario?",
+        text: `Horario el ${horario.fecha} a las ${horario.hora}`,
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#0d6efd",
+        cancelButtonColor: "#dc3545",
+        confirmButtonText: "Confirmar",
+        cancelButtonText: "Cancelar"
+    });
+
+    if (!result.isConfirmed) return;
+
     const response = await fetch("http://localhost:8080/horarios", {
         method: "POST",
         headers: {
@@ -86,12 +99,25 @@ horarioForm.addEventListener("submit", async (e) => {
     });
 
     if (response.ok) {
-        alert("Horario creado");
+
+        Swal.fire({
+            title: "¡Horario creado!",
+            text: "Se ha creado el horario con éxito.",
+            icon: "success",
+            confirmButtonColor: "#0d6efd",
+            confirmButtonText: "Aceptar"
+        });
+
         horarioForm.reset();
         await cargarHorarios();
     } else {
         const error = await response.text();
-        alert("Error: " + error);
+        Swal.fire({
+            title: "Error",
+            text: error,
+            icon: "error",
+            confirmButtonColor: "#dc3545"
+        });
     }
 });
 
@@ -102,15 +128,43 @@ horarioForm.addEventListener("submit", async (e) => {
  * @param {number} id identificador del horario a eliminar.
  */
 async function eliminarHorario(id) {
+
+    const result = await Swal.fire({
+        title: "¿Eliminar horarío?",
+        text: "¿Estás seguro de que quieres eliminar este horario?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#0d6efd",
+        cancelButtonColor: "#dc3545",
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Mejor no"
+    });
+
+    if (!result.isConfirmed) return;
+
     const response = await fetch(`http://localhost:8080/horarios/${id}`, {
         method: "DELETE"
     });
 
     if (response.ok) {
+        Swal.fire({
+            title: "¡Horario eliminado con éxito!",
+            text: "El horario ha sido eliminado correctamente.",
+            icon: "success",
+            confirmButtonColor: "#0d6efd",
+            confirmButtonText: "Aceptar"
+        });
         await cargarHorarios();
         await cargarReservas();
     } else {
-        alert("Error al eliminar el horario.");
+        const error = await response.text();
+
+        Swal.fire({
+            title: "Error",
+            text: error,
+            icon: "error",
+            confirmButtonColor: "#dc3545"
+        });
     }
 }
 
