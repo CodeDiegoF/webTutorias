@@ -128,10 +128,6 @@ http://localhost:8080
 
 Por ahora el panel de administración está separado en una vista distinta, pero **no hay autenticación real** implementada en el backend. 
 
-# Sistema de Tutorias
-
-Aplicacion web con Spring Boot para gestionar horarios de tutoria y reservas de alumnos.
-
 ## Estructura del proyecto
 
 - `src/main/java/com/webTutoria/tutorias/model`: entidades JPA (`Horario`, `Reserva`).
@@ -146,13 +142,12 @@ Aplicacion web con Spring Boot para gestionar horarios de tutoria y reservas de 
 2. El alumno visualiza horarios disponibles en `index.html`.
 3. El alumno reserva un horario.
 4. El horario reservado se marca como no disponible.
-5. Al eliminar una reserva, el horario vuelve a disponible.
+5. Al eliminar una reserva, el horario vuelve a estar disponible.
 
 
 ## Validaciones de negocio
 
-- No se permite reservar una fecha/hora sin horario creado previamente.
-- No se permite reservar un horario marcado como no disponible.
+- No se permite reservar una fecha/hora sin horario creado previamente o marcado como no disponible.
 - No se permiten reservas duplicadas para la misma fecha/hora.
 
 ## Configuracion local
