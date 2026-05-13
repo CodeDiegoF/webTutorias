@@ -175,8 +175,8 @@ async function cancelarReserva(id) {
 
 // Carga inicial de horarios al abrir la vista.
 cargarHorarios().then(() => console.log("Horarios cargados"));
-cargarMisReservas(emailGuardado).then(() => console.log("Reservas Cargadas"));
+
 const emailGuardado = sessionStorage.getItem('emailAlumno');
 if (emailGuardado) {
-    cargarMisReservas(emailGuardado).then(() => console.log("Reservas Cargadas"));
+    cargarMisReservas(emailGuardado);
 }
