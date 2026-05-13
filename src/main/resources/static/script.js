@@ -51,15 +51,17 @@ async function cargarMisReservas(emailAlumno) {
 
     misReservas.forEach(reserva => {
         const div = document.createElement("div");
-        div.classList.add("reserva-item", "row-md-4", "row-3");
+        div.classList.add("reserva-item", "mb-2");
         div.innerHTML = `
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-center gap-3">
                 <div>
                     <strong>${reserva.nombreAlumno}</strong>
                 </div>
                 <div style="font-size:.85rem; color:#aaa">
                     📅 ${reserva.fecha} &nbsp; 🕐 ${reserva.hora}
                 </div>
+                <button class="btn btn-sm btn-danger flex-shrink-0"
+                    onclick="cancelarReserva(${reserva.id})">Cancelar</button>
             </div>
         `;
         container.appendChild(div);
@@ -99,6 +101,19 @@ reservaForm.addEventListener("submit", async (e) => {
         alert(error);
     }
 });
+
+async function cancelarReserva(id) {
+    const response = await fetch(`http://localhost:8080/reservas/${id}`, {
+        method: "DELETE"
+    });
+
+    if (response.ok) {
+        await cargarHorarios();
+        await cargarMisReservas(sessionStorage.getItem('emailAlumno'));
+    } else {
+        alert("Error al cancelar la reserva.");
+    }
+}
 
 // Carga inicial de horarios al abrir la vista.
 cargarHorarios().then(() => console.log("Horarios cargados"));
