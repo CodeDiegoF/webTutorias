@@ -22,8 +22,15 @@ async function cargarHorarios() {
             ${horario.hora}
         `;
         div.addEventListener("click", () => {
+            // Quitar selección anterior
+            document.querySelectorAll(".horario-slot").forEach(s =>
+                s.classList.remove("horario-slot-seleccionado")
+            );
+
+            // Marcar este como seleccionado
             fechaInput.value = horario.fecha;
             horaInput.value  = horario.hora;
+            div.classList.add("horario-slot-seleccionado");
         });
         horariosContainer.appendChild(div);
     });

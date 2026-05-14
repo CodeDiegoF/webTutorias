@@ -6,7 +6,7 @@
     --bg-light:  #212140;
     --shadow-d:  #59b4ff73;
     --shadow-l:  #23234a;
-    --accent:    #f1de09;
+    --accent: rgba(238, 214, 4, 0.9);
     --accent2:   #fbe602;
     --text:      #e9e2e2;
     --muted:     #e7e7fc;
@@ -235,6 +235,18 @@ hr {
             4px 4px 10px var(--shadow-d),
             -2px -2px 6px var(--shadow-l),
             0 0 0 2px rgba(108,99,255,.25) !important;
+}
+
+.horario-slot-seleccionado{
+    border: 1px solid var(--accent) !important;
+    background-color: var(--bg-light) !important;
+    color: var(--accent) !important;
+    transform: translateY(-2px) !important;
+    box-shadow:
+            4px 4px 10px var(--shadow-d),
+            -2px -2px 6px var(--shadow-l),
+            0 0 0 2px rgba(108,99,255,.25) !important;
+
 }
 
 /* ── Badges libre/ocupado ───────────────────────────────────────────────────── */

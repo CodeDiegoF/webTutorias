@@ -24,7 +24,7 @@
         <form id="reserva-form">
             <div class="row g-3">
                 <div class="col-md-6">
-                    <label for="nombreAlumno" class="form-label">Nombre</label>
+                    <label for="nombreAlumno" class="form-label">Nombre Completo</label>
                     <input type="text" id="nombreAlumno" name="nombre" class="form-control" required>
                 </div>
 
@@ -36,16 +36,9 @@
                            title="Por favor, introduce tu correo de la UJA (@ujaen.es)" required>
                 </div>
 
+                <input type="date" id="fecha" name="fecha" required hidden>
 
-                <div class="col-md-6">
-                    <label for="fecha" class="form-label">Fecha</label>
-                    <input type="date" id="fecha" name="fecha" class="form-control" required>
-                </div>
-
-                <div class="col-md-6">
-                    <label for="hora" class="form-label">Hora</label>
-                    <input type="time" id="hora" name="hora" class="form-control" required>
-                </div>
+                <input type="time" id="hora" name="hora" required hidden>
 
                 <div class="col-12 text-center">
                     <button type="submit" class="btn btn-warning fw-bold px-5">Reservar</button>
