@@ -25,7 +25,7 @@ async function cargarHorarios() {
         div.innerHTML = `
             <strong>${horario.fecha}</strong> — ${horario.hora}
             <span>${horario.disponible ? "✅ Libre" : "❌ Ocupado"}</span>
-            <button onclick="eliminarHorario(${horario.id})">Eliminar</button>
+            <button class="btn-eliminar" onclick="eliminarHorario(${horario.id})">Eliminar</button>
         `;
         horariosContainer.appendChild(div);
     });

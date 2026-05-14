@@ -1,30 +1,364 @@
-body {
-    color: hsl(57, 91%, 50%);
-    background: hsla(0, 0%, 0%, 0.54);
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+/* ── Variables ─────────────────────────────────────────────────────────────── */
+:root {
+    --bg:        #1a1a2e;
+    --bg-light:  #212140;
+    --shadow-d:  #59b4ff73;
+    --shadow-l:  #23234a;
+    --accent:    #f1de09;
+    --accent2:   #fbe602;
+    --text:      #e9e2e2;
+    --muted:     #e7e7fc;
+    --success:   #4ade80;
+    --danger:    #f87171;
+    --warning:   #fbbf24;
+    --border:    rgba(0, 0, 0, 0.2);
 }
 
-.container {
-    position: fixed;
-    margin: 150px;
-    left: 25%;
-    padding: 10px 10px 50px 5px;
-    width: 500px;
-    line-height: 25px;
-    color: #dcb800;
-    text-shadow: 0 1px 1px #000000;
-    background-color: #0c0800;
-    background-image:
-            radial-gradient(
-                    circle at center,
-                    rgba(10, 10, 10) 0%,
-                    rgba(19, 19, 0.4) 90%
-            );
+/* ── Reset / Base ───────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    border: 5px solid rgba(238, 214, 4, 0.9);
-    border-radius: 10px;
-    box-shadow: 0 0 10px white;
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+}
+
+/* ── Contenedor principal ───────────────────────────────────────────────────── */
+.container {
+    position: relative !important;
+    left: auto !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    max-width: 720px !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    display: block !important;
+}
+
+/* ── Cards neumórficas ──────────────────────────────────────────────────────── */
+.card-custom {
+    background-color: var(--bg-light) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 20px !important;
+    box-shadow:
+            8px 8px 20px var(--shadow-d),
+            -4px -4px 12px var(--shadow-l) !important;
+    padding: 2rem !important;
+    margin-bottom: 1.5rem !important;
+    color: var(--text) !important;
+}
+
+/* ── Cabecera del panel ─────────────────────────────────────────────────────── */
+.panel-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.panel-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent2);
+    letter-spacing: -.03em;
+}
+
+.panel-header p {
+    color: var(--muted);
+    font-size: .9rem;
+    margin-top: .3rem;
+}
+
+/* ── Títulos ────────────────────────────────────────────────────────────────── */
+h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -.02em;
+}
+
+h5 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--accent2);
+    margin-bottom: 1rem;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    gap: .4rem;
+}
+
+/* ── Separador ──────────────────────────────────────────────────────────────── */
+hr {
+    border: none !important;
+    border-top: 1px solid var(--border) !important;
+    margin: 1.5rem 0 !important;
+}
+
+/* ── Labels ─────────────────────────────────────────────────────────────────── */
+.form-label {
+    font-size: .78rem;
+    font-weight: 500;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    margin-bottom: .4rem;
+    display: block;
+}
+
+/* ── Inputs neumórficos ─────────────────────────────────────────────────────── */
+.form-control {
+    background-color: var(--bg) !important;
+    border: 1px solid rgba(108,99,255,.15) !important;
+    border-radius: 12px !important;
+    color: var(--text) !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: .95rem !important;
+    padding: .7rem 1rem !important;
+    box-shadow:
+            inset 3px 3px 8px var(--shadow-d),
+            inset -2px -2px 6px var(--shadow-l) !important;
+    transition: border-color .2s, box-shadow .2s !important;
+    width: 100%;
+}
+
+.form-control:focus {
+    border-color: var(--accent) !important;
+    box-shadow:
+            inset 3px 3px 8px var(--shadow-d),
+            inset -2px -2px 6px var(--shadow-l),
+            0 0 0 3px rgba(255, 1, 1, 0.15) !important;
+    color: var(--text) !important;
+    background-color: var(--bg) !important;
+    outline: none !important;
+}
+
+/* ── Botón principal ────────────────────────────────────────────────────────── */
+.btn-warning {
+    background: linear-gradient(135deg, var(--accent), var(--accent2)) !important;
+    border: none !important;
+    border-radius: 50px !important;
+    color: #202020 !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: .9rem !important;
+    font-weight: 600 !important;
+    padding: .75rem 2.5rem !important;
+    letter-spacing: .03em !important;
+    box-shadow:
+            4px 4px 12px rgba(108,99,255,.4),
+            -2px -2px 8px var(--shadow-l) !important;
+    transition: all .2s !important;
+    cursor: pointer;
+}
+
+.btn-warning:hover {
+    transform: translateY(-2px) !important;
+    box-shadow:
+            6px 6px 16px rgba(0, 0, 0, 0.751),
+            -2px -2px 8px var(--shadow-l) !important;
+    background: linear-gradient(135deg, var(--accent2), var(--accent)) !important;
+    color: #fff !important;
+    border: 4px solid rgba(0, 0, 0, 0.751) !important;
+}
+
+/* ── Botón eliminar ─────────────────────────────────────────────────────────── */
+.btn-eliminar {
+    background: rgba(248,113,113,.12) !important;
+    border: 1px solid rgba(248,113,113,.35) !important;
+    border-radius: 8px !important;
+    color: var(--danger) !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: .75rem !important;
+    font-weight: 600 !important;
+    padding: .25rem .7rem !important;
+    cursor: pointer !important;
+    transition: all .2s !important;
+}
+
+.btn-eliminar:hover {
+    background: rgba(248,113,113,.25) !important;
+    border-color: var(--danger) !important;
+    color: #fff !important;
+}
+
+/* ── Botón cancelar reserva ─────────────────────────────────────────────────── */
+.btn-cancelar,
+.btn-danger {
+    background: rgba(251,191,36,.1) !important;
+    border: 1px solid rgba(251,191,36,.35) !important;
+    border-radius: 8px !important;
+    color: var(--warning) !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: .75rem !important;
+    font-weight: 600 !important;
+    padding: .25rem .7rem !important;
+    cursor: pointer !important;
+    transition: all .2s !important;
+}
+
+.btn-cancelar:hover,
+.btn-danger:hover {
+    background: rgba(21, 21, 21, 0.25) !important;
+    border-color: var(--warning) !important;
+    color: #ea0000 !important;
+}
+
+/* ── Slots de horarios ──────────────────────────────────────────────────────── */
+.horario-slot {
+    background-color: var(--bg) !important;
+    border: 1px solid rgba(108,99,255,.2) !important;
+    border-radius: 14px !important;
+    padding: .75rem 1rem !important;
+    color: var(--text) !important;
+    text-align: center !important;
+    box-shadow:
+            4px 4px 10px var(--shadow-d),
+            -2px -2px 6px var(--shadow-l) !important;
+    font-size: .85rem !important;
+    transition: all .2s !important;
+}
+
+.horario-slot strong {
+    color: var(--accent2);
+    display: block;
+    margin-bottom: .2rem;
+    font-size: .9rem;
+}
+
+.horario-slot:hover {
+    border-color: var(--accent) !important;
+    transform: translateY(-2px) !important;
+    box-shadow:
+            4px 4px 10px var(--shadow-d),
+            -2px -2px 6px var(--shadow-l),
+            0 0 0 2px rgba(108,99,255,.25) !important;
+}
+
+/* ── Badges libre/ocupado ───────────────────────────────────────────────────── */
+.badge-libre {
+    background: rgba(74,222,128,.12);
+    color: var(--success);
+    border: 1px solid rgba(74,222,128,.3);
+    border-radius: 6px;
+    font-size: .7rem;
+    font-weight: 600;
+    padding: .15rem .5rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+}
+
+.badge-ocupado {
+    background: rgba(248,113,113,.12);
+    color: var(--danger);
+    border: 1px solid rgba(248,113,113,.3);
+    border-radius: 6px;
+    font-size: .7rem;
+    font-weight: 600;
+    padding: .15rem .5rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+}
+
+/* ── Filas de horarios admin ────────────────────────────────────────────────── */
+.horario-row {
+    background-color: var(--bg) !important;
+    border: 1px solid rgba(108,99,255,.15) !important;
+    border-radius: 12px !important;
+    padding: .7rem 1rem !important;
+    color: var(--text) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    transition: background .2s !important;
+    box-shadow:
+            3px 3px 8px var(--shadow-d),
+            -2px -2px 5px var(--shadow-l) !important;
+    margin-bottom: .5rem;
+}
+
+.horario-row:hover {
+    border-color: rgba(108,99,255,.35) !important;
+}
+
+/* ── Items de reserva ───────────────────────────────────────────────────────── */
+.reserva-item {
+    background-color: var(--bg) !important;
+    border: 1px solid rgba(108,99,255,.15) !important;
+    border-radius: 14px !important;
+    padding: .9rem 1.1rem !important;
+    color: var(--text) !important;
+    transition: all .2s !important;
+    box-shadow:
+            3px 3px 8px var(--shadow-d),
+            -2px -2px 6px var(--shadow-l) !important;
+    margin-bottom: .5rem;
+}
+
+.reserva-item:hover {
+    border-color: rgba(108,99,255,.3) !important;
+}
+
+.reserva-item strong {
+    color: var(--accent2);
+}
+
+/* ── Textos de carga/vacío ──────────────────────────────────────────────────── */
+p[style*="color:#888"] {
+    color: var(--muted) !important;
+    font-style: italic;
+    font-size: .88rem;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+/* ── Scrollbars ─────────────────────────────────────────────────────────────── */
+#horarios-container {
+    max-height: 260px;
+    overflow-y: auto;
+}
+
+#reservas-container {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+/* ── SweetAlert2 tema oscuro ────────────────────────────────────────────────── */
+.swal2-container { z-index: 99999 !important; }
+
+.swal2-popup {
+    background-color: var(--bg-light) !important;
+    color: var(--text) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 20px !important;
+    box-shadow: 8px 8px 24px var(--shadow-d) !important;
+}
+
+.swal2-title  { color: var(--text) !important; }
+.swal2-html-container { color: var(--muted) !important; }
+.swal2-icon { border-color: var(--accent) !important; }
+
+@media (max-width: 768px) {
+    .container {
+        position: relative;
+        top: 0;
+        left: 0;
+        margin: 20px auto;
+        margin-left: auto;
+        width: 90%;
+    }
+
+    body {
+        padding: 10px;
+    }
+
+    .form-row {
+        flex-direction: column;
+    }
 }

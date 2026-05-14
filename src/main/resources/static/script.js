@@ -41,7 +41,7 @@ async function cargarMisReservas(emailAlumno) {
     const reservas = await response.json();
 
     const misReservas = reservas.filter(r => r.emailAlumno === emailAlumno);
-    const container   = document.getElementById("mis-reservas-container");
+    const container   = document.getElementById("reservas-container");
     container.innerHTML = "";
 
     if (!misReservas.length) {
