@@ -1,0 +1,386 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    background: linear-gradient(to right, #0b0b0b, #d9e2ff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+/* ── CONTENEDOR PRINCIPAL ── */
+.container {
+    border: 2px solid #e3e30a;
+    background-color: #ffffff;
+    width: 75%;
+    max-width: 900px;
+    height: 580px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+}
+
+/* ── CONTAINER-FORM: cada mitad izquierda/derecha ── */
+.container-form {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.6s ease-in-out;
+}
+
+/* Sign-in: visible a la izquierda por defecto */
+.container-form:has(.sign-in) {
+    z-index: 2;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Sign-up: oculto detrás del overlay por defecto */
+.container-form:has(.sign-up) {
+    z-index: 1;
+    opacity: 0;
+    transform: translateX(0);
+}
+
+/* Toggle: sign-in sale por la derecha */
+.container.toggle .container-form:has(.sign-in) {
+    transform: translateX(100%);
+    opacity: 0;
+    z-index: 1;
+}
+
+/* Toggle: sign-up aparece en la posición izquierda */
+.container.toggle .container-form:has(.sign-up) {
+    transform: translateX(100%);
+    opacity: 1;
+    z-index: 5;
+}
+
+/* ── FORMULARIOS ── */
+.sign-in,
+.sign-up {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 40px;
+    width: 100%;
+    gap: 6px;
+}
+
+.sign-in h2,
+.sign-up h2 {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #252523;
+}
+
+.sign-in span,
+.sign-up span {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* ── INPUTS ── */
+.container-input {
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+}
+
+.container-input ion-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #e3e30a;
+    font-size: 18px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.container-input input {
+    background-color: #252523;
+    color: #e3e30a;
+    border: none;
+    padding: 12px 18px 12px 42px;
+    font-size: 14px;
+    border-radius: 8px;
+    width: 100%;
+    margin: 6px 0;
+}
+
+.container-input input::placeholder {
+    color: #aaa;
+}
+
+.container-input input:focus {
+    outline: 2px solid #e3e30a;
+}
+
+/* ── ENLACE ── */
+.container a {
+    color: #333;
+    font-size: 13px;
+    text-decoration: none;
+    margin: 8px 0 2px;
+    cursor: pointer;
+}
+
+.container a:hover {
+    text-decoration: underline;
+    color: blue;
+}
+
+/* ── BOTONES DE FORMULARIO ── */
+.sign-in button,
+.sign-up button {
+    background-color: #252523;
+    color: #e3e30a;
+    font-size: 13px;
+    padding: 12px 50px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.sign-in button:hover,
+.sign-up button:hover {
+    background-color: #dfe30a;
+    color: #252523;
+    border-color: #080808;
+}
+
+/* ── OVERLAY / PANEL DESLIZANTE ── */
+.container-welcome {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 100;
+    transition: transform 0.6s ease-in-out;
+}
+
+/* Al toggle, el panel se mueve a la izquierda */
+.container.toggle .container-welcome {
+    transform: translateX(-100%);
+}
+
+/* Fondo amarillo mediante pseudo-elemento que cubre doble ancho */
+.container-welcome::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: #e3e30a;
+    transition: transform 0.6s ease-in-out, background 0.6s ease-in-out;
+    z-index: -1;
+}
+
+.container.toggle .container-welcome::before {
+    transform: translateX(50%);
+    background: #ecb900;
+}
+
+/* ── PANELES DE BIENVENIDA ── */
+.welcome {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 40px 30px;
+    text-align: center;
+    transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+}
+
+/* welcome-sign-up: visible al inicio */
+.welcome-sign-up {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* welcome-sign-in: oculto al inicio */
+.welcome-sign-in {
+    transform: translateX(100%);
+    opacity: 0;
+}
+
+/* Toggle */
+.container.toggle .welcome-sign-up {
+    transform: translateX(-100%);
+    opacity: 0;
+}
+
+.container.toggle .welcome-sign-in {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* ── TIPOGRAFÍA DEL PANEL ── */
+.container-welcome h3 {
+    font-size: 38px;
+    font-weight: 700;
+    color: #252523;
+}
+
+.container-welcome p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+    margin: 0;
+}
+
+/* ── BOTONES DEL PANEL ── */
+.container-welcome button {
+    background-color: #252523;
+    color: #e3e30a;
+    font-size: 13px;
+    padding: 13px 50px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    margin-top: 0;
+}
+
+.container-welcome button:hover {
+    background-color: #dfe30a;
+    color: #252523;
+    border-color: #080808;
+}
+
+/* ── RESPONSIVE ── */
+@media screen and (max-width: 768px) {
+    body {
+        align-items: flex-start;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .container {
+        width: 100%;
+        height: 100vh;
+        border: none;
+    }
+
+    /* Formularios: ocupan toda la pantalla, padding-top para dejar espacio al panel */
+    .container-form {
+        width: 100%;
+        height: 100%;
+        left: 0;
+        padding-top: 210px;
+        align-items: flex-start;
+    }
+
+    .container-form:has(.sign-in) {
+        transform: translateX(0);
+        opacity: 1;
+        z-index: 2;
+    }
+
+    .container-form:has(.sign-up) {
+        transform: translateX(0);
+        opacity: 0;
+        z-index: 1;
+    }
+
+    .container.toggle .container-form:has(.sign-in) {
+        transform: translateX(0);
+        opacity: 0;
+        z-index: 1;
+    }
+
+    .container.toggle .container-form:has(.sign-up) {
+        transform: translateX(0);
+        opacity: 1;
+        z-index: 5;
+    }
+
+    /* Panel bienvenida: barra fija en la parte superior */
+    .container-welcome {
+        left: 0;
+        width: 100%;
+        height: 200px;
+        transform: none !important;
+        z-index: 200;
+        background: #e3e30a;
+        transition: background 0.4s;
+    }
+
+    .container.toggle .container-welcome {
+        background: #ecb900;
+    }
+
+    .container-welcome::before {
+        display: none;
+    }
+
+    .welcome {
+        padding: 20px;
+        gap: 12px;
+    }
+
+    .welcome-sign-up {
+        transform: translateX(0);
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .welcome-sign-in {
+        transform: translateX(0);
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .container.toggle .welcome-sign-up {
+        transform: translateX(0);
+        opacity: 0;
+        pointer-events: auto;
+    }
+
+    .container.toggle .welcome-sign-in {
+        transform: translateX(0);
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .container-welcome h3 {
+        font-size: 26px;
+    }
+
+    .container-welcome p {
+        font-size: 13px;
+    }
+}
