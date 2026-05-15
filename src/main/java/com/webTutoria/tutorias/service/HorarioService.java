@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -37,10 +38,12 @@ public class HorarioService {
     }
 
     /**
-     * Obtiene unicamente los horarios disponibles para alumnos.
+     * Obtiene unicamente los horarios disponibles para alumnos
+     * a partir de la fecha actual.
      */
-    public List<Horario> obtenerHorariosDisponibles() {
-        return horarioRepository.findByDisponibleTrue();
+    public List<Horario> obtenerDisponibles() {
+        return horarioRepository
+                .findByDisponibleTrueAndFechaGreaterThanEqual(LocalDate.now());
     }
 
     /**

@@ -45,7 +45,7 @@ public class HorarioController {
      */
     @GetMapping
     public List<Horario> verHorariosDisponibles(){
-        return horarioService.obtenerHorariosDisponibles();
+        return horarioService.obtenerDisponibles();
     }
 
     /**
