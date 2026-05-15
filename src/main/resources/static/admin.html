@@ -13,6 +13,12 @@
         <p>Gestiona tu disponibilidad y tutorías</p>
     </div>
     <div class="card-custom">
+        <h5>📅 Horarios creados</h5>
+        <div class="mb-3 d-flex gap-2">
+            <button class="btn btn-warning btn-sm" onclick="filtrarHorarios('todos')">Todos</button>
+            <button class="btn btn-warning btn-sm" onclick="filtrarHorarios('libre')">Libres</button>
+            <button class="btn btn-warning btn-sm" onclick="filtrarHorarios('ocupado')">Ocupados</button>
+        </div>
         <h5>➕ Añadir horario disponible</h5>
         <form id="horario-form">
             <div class="row g-3 align-items-end">

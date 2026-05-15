@@ -6,30 +6,47 @@ const reservasContainer = document.getElementById("reservas-container");
 
 // ── Cargar horarios ───────────────────────────────────────────────────────────
 /**
- * Obtiene todos los horarios para el panel admin y muestra su estado actual.
+ * Obtiene todos los horarios para el panel admin y muestra su estado actual,
+ * incluyendo filtrado
  */
+let todosLosHorarios = [];
+
 async function cargarHorarios() {
     const response = await fetch("http://localhost:8080/horarios/admin");
-    const horarios = await response.json();
+    todosLosHorarios = await response.json();
+    renderHorarios(todosLosHorarios);
+}
 
+function filtrarHorarios(tipo) {
+    let filtrados;
+    if (tipo === 'libre') filtrados = todosLosHorarios.filter(h => h.disponible);
+    else if (tipo === 'ocupado') filtrados = todosLosHorarios.filter(h => !h.disponible);
+    else filtrados = todosLosHorarios;
+    renderHorarios(filtrados);
+}
+
+function renderHorarios(horarios) {
     horariosContainer.innerHTML = "";
 
     if (!horarios.length) {
-        horariosContainer.innerHTML = "<p>No hay horarios creados.</p>";
+        horariosContainer.innerHTML = "<p style='color:#888'>No hay horarios.</p>";
         return;
     }
 
     horarios.forEach(horario => {
         const div = document.createElement("div");
-        div.classList.add("horario-slot", "col-md-3", "col-6");
+        div.classList.add("horario-slot", "col-md-4", "col-6");
         div.innerHTML = `
             <strong>${horario.fecha}</strong> — ${horario.hora}
-            <span>${horario.disponible ? "✅ Libre" : "❌ Ocupado"}</span>
+            <span class="${horario.disponible ? 'badge-libre' : 'badge-ocupado'}">
+                ${horario.disponible ? '✅ Libre' : '❌ Ocupado'}
+            </span>
             <button class="btn-eliminar" onclick="eliminarHorario(${horario.id})">Eliminar</button>
         `;
         horariosContainer.appendChild(div);
     });
 }
+
 
 // ── Cargar reservas ───────────────────────────────────────────────────────────
 /**
