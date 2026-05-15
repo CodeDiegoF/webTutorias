@@ -10,11 +10,12 @@ import java.util.Optional;
  * Repositorio JPA para operaciones de persistencia de {@link Horario}.
  */
 public interface HorarioRepository extends JpaRepository<Horario, Long> {
-    
+
     /**
      * Recupera los horarios libres para que el alumno solo vea opciones reservables.
      */
-    List<Horario> findByDisponibleTrueAndFechaGreaterThanEqual(LocalDate fecha);
+    List<Horario> findByDisponibleTrue();
+
     /**
      * Localiza un horario exacto por fecha y hora, independientemente de su estado.
      */
