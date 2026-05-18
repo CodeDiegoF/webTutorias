@@ -19,7 +19,7 @@ async function cargarHorarios() {
         div.classList.add("horario-slot", "col-md-3", "col-6");
         div.innerHTML = `
             <strong>${horario.fecha}</strong><br>
-            ${horario.hora}
+            <strong>${horario.hora}</strong>
         `;
         div.addEventListener("click", () => {
             // Quitar selección anterior

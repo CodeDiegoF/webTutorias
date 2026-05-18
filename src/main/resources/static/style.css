@@ -238,15 +238,18 @@ hr {
 }
 
 .horario-slot-seleccionado{
-    border: 1px solid var(--accent) !important;
-    background-color: var(--bg-light) !important;
-    color: var(--accent) !important;
+    border: 3px solid var(--accent) !important;
+    background-color: var(--accent) !important;
     transform: translateY(-2px) !important;
     box-shadow:
             4px 4px 10px var(--shadow-d),
             -2px -2px 6px var(--shadow-l),
             0 0 0 2px rgba(108,99,255,.25) !important;
 
+}
+
+.horario-slot-seleccionado strong {
+    color: var(--bg) !important;
 }
 
 /* ── Badges libre/ocupado ───────────────────────────────────────────────────── */
