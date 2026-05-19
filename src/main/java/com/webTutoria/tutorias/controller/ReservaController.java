@@ -54,6 +54,17 @@ public class ReservaController {
     }
 
     /**
+     * Endpoint para ver el historial de reservas.
+     *
+     * @return lista de reservas de los alumnos
+     */
+
+    @GetMapping("/historial")
+    public List<Reserva> obtenerHistorial() {
+        return reservaService.obtenerHistorial();
+    }
+
+    /**
      * Endpoint de administracion que devuelve todas las reservas.
      *
      * @return lista completa de reservas

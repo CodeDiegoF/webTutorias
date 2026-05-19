@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -74,5 +76,18 @@ public class ReservaService {
                 });
 
         reservaRepository.deleteById(id);
+    }
+
+    /**
+     * Busca reservas pasadas (fecha/hora anteriores al momento actual) para mostrar el historial.
+     */
+    public List<Reserva> obtenerHistorial() {
+        LocalDate hoy = LocalDate.now();
+        LocalTime ahora = LocalTime.now();
+
+        return reservaRepository.findAll().stream()
+                .filter(r -> r.getFecha().isBefore(hoy) ||
+                        (r.getFecha().isEqual(hoy) && r.getHora().isBefore(ahora)))
+                .collect(java.util.stream.Collectors.toList());
     }
 }

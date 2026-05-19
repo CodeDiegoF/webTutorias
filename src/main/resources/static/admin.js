@@ -4,13 +4,16 @@ const horaInput         = document.getElementById("hora");
 const horariosContainer = document.getElementById("horarios-container");
 const reservasContainer = document.getElementById("reservas-container");
 
+// ── Variables globales ────────────────────────────────────────────────────────
+let todosLosHorarios  = [];
+let todasLasReservas  = [];
+let todosLasHistorial = [];
+
 // ── Cargar horarios ───────────────────────────────────────────────────────────
 /**
  * Obtiene todos los horarios para el panel admin y muestra su estado actual,
  * incluyendo filtrado
  */
-let todosLosHorarios = [];
-
 async function cargarHorarios() {
     const response = await fetch("http://localhost:8080/horarios/admin");
     todosLosHorarios = await response.json();
@@ -51,11 +54,17 @@ function renderHorarios(horarios) {
 /**
  * Carga y pinta las reservas realizadas por los alumnos.
  */
-let todasLasReservas = []; // variable global
-
 async function cargarReservas() {
     const response = await fetch("http://localhost:8080/reservas");
-    todasLasReservas = await response.json(); // guarda en la variable global
+    const todas = await response.json();
+
+    const hoy   = new Date().toISOString().split('T')[0];
+    const ahora = new Date().toTimeString().slice(0, 5);
+
+    // Solo reservas futuras o de hoy cuya hora aún no ha pasado
+    todasLasReservas = todas.filter(r =>
+        r.fecha > hoy || (r.fecha === hoy && r.hora.slice(0, 5) > ahora)
+    );
     renderReservas(todasLasReservas);
 }
 
@@ -197,6 +206,55 @@ async function eliminarHorario(id) {
     }
 }
 
+// ── Cargar historial ──────────────────────────────────────────────────────────
+/**
+    * Carga el historial de tutorías pasadas, mostrando solo las reservas que ya han ocurrido.
+    * Permite filtrar por nombre del alumno.
+ */
+
+
+async function cargarHistorial() {
+    const response = await fetch("http://localhost:8080/reservas/historial");
+    todosLasHistorial = await response.json();
+    renderHistorial(todosLasHistorial);
+}
+
+function renderHistorial(reservas) {
+    const container = document.getElementById("historial-container");
+    container.innerHTML = "";
+
+    if (!reservas.length) {
+        container.innerHTML = "<p style='color:#888'>No hay tutorías pasadas.</p>";
+        return;
+    }
+
+    reservas.forEach(reserva => {
+        const div = document.createElement("div");
+        div.classList.add("reserva-item");
+        div.innerHTML = `
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>${reserva.nombreAlumno || 'Alumno'}</strong>
+                    <div style="font-size:.82rem;color:#aaa;margin-top:.2rem">
+                        📅 ${reserva.fecha} &nbsp; 🕐 ${reserva.hora}
+                    </div>
+                </div>
+                <span class="badge-ocupado">Pasada</span>
+            </div>
+        `;
+        container.appendChild(div);
+    });
+}
+
+document.getElementById('buscador-reservas-historial').addEventListener('input', function() {
+    const texto = this.value.toLowerCase().trim();
+    const filtradas = todosLasHistorial.filter(r =>
+        (r.nombreAlumno || '').toLowerCase().includes(texto)
+    );
+    renderHistorial(filtradas);
+});
+
 // ── Carga inicial ─────────────────────────────────────────────────────────────
 cargarHorarios().then(() => console.log("Horarios cargados"));
 cargarReservas().then(() => console.log("Reservas Cargadas"));
+cargarHistorial().then(() => console.log("Historial cargado"));
