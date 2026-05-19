@@ -24,7 +24,7 @@ server.port=8080
 
 ### 2. Rutas relativas en el frontend
 
-Los archivos `src/main/resources/static/script.js` y `src/main/resources/static/admin.js` ahora usan rutas relativas como:
+Los archivos `src/main/resources/static/reservaScript.js` y `src/main/resources/static/admin.js` ahora usan rutas relativas como:
 
 - `/horarios`
 - `/horarios/admin`
@@ -68,7 +68,7 @@ src/main/java/com/webTutoria/tutorias/
 src/main/resources/static/
 ├── index.html
 ├── admin.html
-├── script.js
+├── reservaScript.js
 ├── admin.js
 └── style.css
 ```

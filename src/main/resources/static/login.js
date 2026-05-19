@@ -89,7 +89,7 @@ signInForm.addEventListener('submit', async (e) => {
             if (usuario.rol === 'PROFESOR') {
                 window.location.href = '/admin.html';
             } else {
-                window.location.href = '/index.html';
+                window.location.href = '/reservaTutorías.html';
             }
         } else {
             const msg = await res.text();

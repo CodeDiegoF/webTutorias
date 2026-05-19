@@ -1,66 +1,78 @@
-<!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>RESERVA TU TUTORÍA</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
-
-
-
+    <title>LOG IN</title>
+    <link rel="stylesheet" href="styleLogin.css">
 </head>
 
 <body>
-<div class="container py-5" style="max-width: 700px;">
-    <div class="panel-header">
-        <h1>RESERVA TUS TUTORÍAS</h1>
-    </div>
 
-    <div class="card-custom">
-        <h2 class="mb-3">📅 Horarios disponibles</h2>
-        <div id="horarios-container" class="row g-2 mb-3">
+    <div class="container">
+        <div class="container-form">
+            <form class="sign-in">
+                <h2>INICIA SESIÓN</h2>
+                <span>Use su nombre de usuario y contraseña</span>
+
+                <div class="container-input">
+                    <ion-icon name="mail-outline"></ion-icon>
+                    <input type="email" id="login-email" placeholder="Correo Electrónico"
+                           pattern="^[^@]+@ujaen\.es$" title="Por favor, introduce tu correo de la UJA (@ujaen.es)" required>
+                </div>
+
+                <div class="container-input">
+                    <ion-icon name="lock-closed-outline"></ion-icon>
+                    <input type="password" id="login-password" placeholder="Contraseña"  required>
+                </div>
+                <a href="#">¿Olvidaste tu contraseña?</a><br>
+                <button type="submit">INICIAR SESIÓN</button>
+            </form>
         </div>
-    </div>
 
-        <hr>
+        <div class="container-form">
+            <form class="sign-up">
+                <h2>REGÍSTRATE</h2>
+                <span>Complete el formulario para crear una cuenta</span>
 
-        <h5 class="mb-3">✏️ Completa con tus datos</h5>
-        <form id="reserva-form">
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <label for="nombreAlumno" class="form-label">Nombre Completo</label>
-                    <input type="text" id="nombreAlumno" name="nombre" class="form-control" required>
+                <div class="container-input">
+                    <ion-icon name="person-circle-outline"></ion-icon>
+                    <input type="text" id="registro-nombre" placeholder="Nombre de Usuario"  required>
                 </div>
 
-                <div class="col-md-6">
-                    <label for="emailAlumno" class="form-label">Correo electrónico</label>
-                    <input type="email" id="emailAlumno" name="email"
-                           class="form-control"
-                           pattern="^[^@]+@ujaen\.es$"
-                           title="Por favor, introduce tu correo de la UJA (@ujaen.es)" required>
+                <div class="container-input">
+                    <ion-icon name="mail-outline"></ion-icon>
+                    <input type="email" id="registro-email"
+                           placeholder="Correo Electrónico" pattern="^[^@]+@ujaen\.es$" title="Por favor, introduce tu correo de la UJA (@ujaen.es)" required>
                 </div>
 
-                <input type="date" id="fecha" name="fecha" required hidden>
-
-                <input type="time" id="hora" name="hora" required hidden>
-
-                <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-warning fw-bold px-5">Reservar</button>
+                <div class="container-input">
+                    <ion-icon name="lock-closed-outline"></ion-icon>
+                    <input type="password" id="registro-password" placeholder="Contraseña"  required>
                 </div>
-            </div>
-        </form>
-        <hr>
-        <div class="card-custom">
-            <h2 class="mb-3">📋 Mis tutorías reservadas</h2>
-            <div id="reservas-container" class="d-flex flex-column gap-3">
-                <p style="color:#f5f5f5">No tienes tutorías reservadas.</p>
-            </div>
+
+                <button type="submit">REGISTRARSE</button>
+            </form>
         </div>
-    </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="script.js"></script>
+        <div class="container-welcome">
+
+            <div class="welcome-sign-up welcome">
+                <h3>BIENVENIDO</h3>
+                <p>¡Crea tu cuenta para comenzar!</p>
+                <button id="sign-up-btn">REGISTRARSE</button>
+            </div>
+
+            <div class="welcome-sign-in welcome">
+                <h3>¡HOLA DE NUEVO!</h3>
+                <p>Si ya tienes una cuenta, inicia sesión aquí</p>
+                <button id="sign-in-btn">INICIAR SESIÓN</button>
+            </div>
+
+        </div>
+
+    </div>
+  
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="login.js"></script>
 </body>
 </html>
