@@ -79,7 +79,8 @@ async function cargarMisReservas(emailAlumno) {
 reservaForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const email = document.getElementById("emailAlumno").value.trim();
+    const usuarioLogueado = JSON.parse(sessionStorage.getItem('usuario') || '{}');
+    const email = usuarioLogueado.email;
 
     const reserva = {
         nombreAlumno: document.getElementById("nombreAlumno").value.trim(),
@@ -111,7 +112,6 @@ reservaForm.addEventListener("submit", async (e) => {
     });
 
     if (response.ok) {
-        sessionStorage.setItem("emailAlumno", email);
 
         Swal.fire({
             title: "¡Reserva realizada!",
@@ -167,7 +167,8 @@ async function cancelarReserva(id) {
             confirmButtonText: "Aceptar"
         });
         await cargarHorarios();
-        await cargarMisReservas(sessionStorage.getItem('emailAlumno'));
+        const usuarioLogueado = JSON.parse(sessionStorage.getItem('usuario') || '{}');
+        await cargarMisReservas(usuarioLogueado.email);
     } else {
         const error = await response.text();
 
@@ -183,7 +184,7 @@ async function cancelarReserva(id) {
 // Carga inicial de horarios al abrir la vista.
 cargarHorarios().then(() => console.log("Horarios cargados"));
 
-const emailGuardado = sessionStorage.getItem('emailAlumno');
-if (emailGuardado) {
-    cargarMisReservas(emailGuardado);
+const usuarioLogueado = JSON.parse(sessionStorage.getItem('usuario') || '{}');
+if (usuarioLogueado.email) {
+    cargarMisReservas(usuarioLogueado.email);
 }

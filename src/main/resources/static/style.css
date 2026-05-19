@@ -2,18 +2,18 @@
 
 /* ── Variables ─────────────────────────────────────────────────────────────── */
 :root {
-    --bg:        #1a1a2e;
-    --bg-light:  #212140;
-    --shadow-d:  #59b4ff73;
-    --shadow-l:  #23234a;
-    --accent: rgba(238, 214, 4, 0.9);
-    --accent2:   #fbe602;
-    --text:      #e9e2e2;
-    --muted:     #e7e7fc;
-    --success:   #4ade80;
-    --danger:    #f87171;
-    --warning:   #fbbf24;
-    --border:    rgba(0, 0, 0, 0.2);
+    --bg:        #1e1e2e;
+    --bg-light:  #26263a;
+    --shadow-d:  rgba(0, 0, 0, 0.25);
+    --shadow-l:  rgba(255, 255, 255, 0.04);
+    --accent:    #d4c46a;
+    --accent2:   #e8d87a;
+    --text:      #ddd8c4;
+    --muted:     #9b9880;
+    --success:   #7ec8a0;
+    --danger:    #e08080;
+    --warning:   #d4b870;
+    --border:    rgba(212, 196, 106, 0.15);
 }
 
 /* ── Reset / Base ───────────────────────────────────────────────────────────── */
@@ -41,16 +41,14 @@ body {
     display: block !important;
 }
 
-/* ── Cards neumórficas ──────────────────────────────────────────────────────── */
+/* ── Cards ──────────────────────────────────────────────────────────────────── */
 .card-custom {
     background-color: var(--bg-light) !important;
     border: 1px solid var(--border) !important;
-    border-radius: 20px !important;
-    box-shadow:
-            8px 8px 20px var(--shadow-d),
-            -4px -4px 12px var(--shadow-l) !important;
-    padding: 2rem !important;
-    margin-bottom: 1.5rem !important;
+    border-radius: 14px !important;
+    box-shadow: 0 2px 8px var(--shadow-d) !important;
+    padding: 1.75rem !important;
+    margin-bottom: 1.25rem !important;
     color: var(--text) !important;
 }
 
@@ -61,31 +59,37 @@ body {
 }
 
 .panel-header h1 {
-    font-size: 2rem;
-    font-weight: 700;
+    font-size: 1.8rem;
+    font-weight: 600;
     color: var(--accent2);
-    letter-spacing: -.03em;
+    letter-spacing: -.02em;
 }
 
 .panel-header p {
     color: var(--muted);
-    font-size: .9rem;
+    font-size: .88rem;
     margin-top: .3rem;
 }
 
 /* ── Títulos ────────────────────────────────────────────────────────────────── */
 h1 {
     font-size: 1.4rem;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--text);
-    letter-spacing: -.02em;
+    letter-spacing: -.01em;
+}
+
+h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--accent2);
 }
 
 h5 {
-    font-size: 1rem;
+    font-size: .95rem;
     font-weight: 600;
     color: var(--accent2);
-    margin-bottom: 1rem;
+    margin-bottom: .9rem;
     display: flex;
     align-items: center;
     gap: .4rem;
@@ -95,184 +99,185 @@ h5 {
 hr {
     border: none !important;
     border-top: 1px solid var(--border) !important;
-    margin: 1.5rem 0 !important;
+    margin: 1.25rem 0 !important;
 }
 
 /* ── Labels ─────────────────────────────────────────────────────────────────── */
 .form-label {
-    font-size: .78rem;
+    font-size: .75rem;
     font-weight: 500;
     color: var(--muted);
     text-transform: uppercase;
-    letter-spacing: .07em;
-    margin-bottom: .4rem;
+    letter-spacing: .06em;
+    margin-bottom: .35rem;
     display: block;
 }
 
-/* ── Inputs neumórficos ─────────────────────────────────────────────────────── */
+/* ── Inputs ─────────────────────────────────────────────────────────────────── */
 .form-control {
     background-color: var(--bg) !important;
-    border: 1px solid rgba(108,99,255,.15) !important;
-    border-radius: 12px !important;
+    border: 1px solid rgba(212, 196, 106, 0.2) !important;
+    border-radius: 10px !important;
     color: var(--text) !important;
     font-family: 'Outfit', sans-serif !important;
-    font-size: .95rem !important;
-    padding: .7rem 1rem !important;
-    box-shadow:
-            inset 3px 3px 8px var(--shadow-d),
-            inset -2px -2px 6px var(--shadow-l) !important;
-    transition: border-color .2s, box-shadow .2s !important;
+    font-size: .92rem !important;
+    padding: .65rem .95rem !important;
+    box-shadow: inset 0 1px 3px var(--shadow-d) !important;
+    transition: border-color .2s !important;
     width: 100%;
 }
 
 .form-control:focus {
     border-color: var(--accent) !important;
     box-shadow:
-            inset 3px 3px 8px var(--shadow-d),
-            inset -2px -2px 6px var(--shadow-l),
-            0 0 0 3px rgba(255, 1, 1, 0.15) !important;
+            inset 0 1px 3px var(--shadow-d),
+            0 0 0 2px rgba(212, 196, 106, 0.15) !important;
     color: var(--text) !important;
     background-color: var(--bg) !important;
     outline: none !important;
 }
 
+.form-control::placeholder {
+    color: var(--muted) !important;
+    opacity: 0.7;
+}
+
+#buscador-reservas::placeholder {
+    color: var(--muted) !important;
+    opacity: 0.7;
+}
+
 /* ── Botón principal ────────────────────────────────────────────────────────── */
 .btn-warning {
-    background: linear-gradient(135deg, var(--accent), var(--accent2)) !important;
-    border: none !important;
-    border-radius: 50px !important;
-    color: #202020 !important;
+    background: var(--accent) !important;
+    border: 1px solid rgba(212, 196, 106, 0.4) !important;
+    border-radius: 8px !important;
+    color: #1e1e2e !important;
     font-family: 'Outfit', sans-serif !important;
-    font-size: .9rem !important;
+    font-size: .88rem !important;
     font-weight: 600 !important;
-    padding: .75rem 2.5rem !important;
-    letter-spacing: .03em !important;
-    box-shadow:
-            4px 4px 12px rgba(108,99,255,.4),
-            -2px -2px 8px var(--shadow-l) !important;
+    padding: .65rem 2rem !important;
+    letter-spacing: .02em !important;
+    box-shadow: 0 2px 6px var(--shadow-d) !important;
     transition: all .2s !important;
     cursor: pointer;
 }
 
 .btn-warning:hover {
-    transform: translateY(-2px) !important;
-    box-shadow:
-            6px 6px 16px rgba(0, 0, 0, 0.751),
-            -2px -2px 8px var(--shadow-l) !important;
-    background: linear-gradient(135deg, var(--accent2), var(--accent)) !important;
-    color: #fff !important;
-    border: 4px solid rgba(0, 0, 0, 0.751) !important;
+    background: var(--accent2) !important;
+    border-color: var(--accent2) !important;
+    color: #1e1e2e !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 10px var(--shadow-d) !important;
+}
+
+/* ── Botón sm (filtros) ─────────────────────────────────────────────────────── */
+.btn-warning.btn-sm {
+    padding: .35rem 1rem !important;
+    font-size: .8rem !important;
+    border-radius: 6px !important;
 }
 
 /* ── Botón eliminar ─────────────────────────────────────────────────────────── */
 .btn-eliminar {
-    background: rgba(248,113,113,.12) !important;
-    border: 1px solid rgba(248,113,113,.35) !important;
-    border-radius: 8px !important;
+    background: transparent !important;
+    border: 1px solid rgba(224, 128, 128, 0.4) !important;
+    border-radius: 6px !important;
     color: var(--danger) !important;
     font-family: 'Outfit', sans-serif !important;
     font-size: .75rem !important;
-    font-weight: 600 !important;
-    padding: .25rem .7rem !important;
+    font-weight: 500 !important;
+    padding: .2rem .6rem !important;
     cursor: pointer !important;
     transition: all .2s !important;
 }
 
 .btn-eliminar:hover {
-    background: rgba(248,113,113,.25) !important;
+    background: rgba(224, 128, 128, 0.12) !important;
     border-color: var(--danger) !important;
-    color: #fff !important;
 }
 
-/* ── Botón cancelar reserva ─────────────────────────────────────────────────── */
+/* ── Botón cancelar ─────────────────────────────────────────────────────────── */
 .btn-cancelar,
 .btn-danger {
-    background: rgba(251,191,36,.1) !important;
-    border: 1px solid rgba(251,191,36,.35) !important;
-    border-radius: 8px !important;
+    background: transparent !important;
+    border: 1px solid rgba(212, 184, 112, 0.35) !important;
+    border-radius: 6px !important;
     color: var(--warning) !important;
     font-family: 'Outfit', sans-serif !important;
     font-size: .75rem !important;
-    font-weight: 600 !important;
-    padding: .25rem .7rem !important;
+    font-weight: 500 !important;
+    padding: .2rem .6rem !important;
     cursor: pointer !important;
     transition: all .2s !important;
 }
 
 .btn-cancelar:hover,
 .btn-danger:hover {
-    background: rgba(21, 21, 21, 0.25) !important;
-    border-color: var(--warning) !important;
-    color: #ea0000 !important;
+    background: rgba(212, 184, 112, 0.1) !important;
+    border-color: rgb(220, 61, 61) !important;
+    color: rgb(220, 61, 61) !important;
 }
 
 /* ── Slots de horarios ──────────────────────────────────────────────────────── */
 .horario-slot {
     background-color: var(--bg) !important;
-    border: 1px solid rgba(108,99,255,.2) !important;
-    border-radius: 14px !important;
-    padding: .75rem 1rem !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 10px !important;
+    padding: .7rem .9rem !important;
     color: var(--text) !important;
     text-align: center !important;
-    box-shadow:
-            4px 4px 10px var(--shadow-d),
-            -2px -2px 6px var(--shadow-l) !important;
+    box-shadow: 0 1px 4px var(--shadow-d) !important;
     font-size: .85rem !important;
-    transition: all .2s !important;
+    transition: all .18s !important;
+    cursor: pointer;
 }
 
 .horario-slot strong {
     color: var(--accent2);
     display: block;
-    margin-bottom: .2rem;
-    font-size: .9rem;
+    margin-bottom: .15rem;
+    font-size: .88rem;
 }
 
 .horario-slot:hover {
     border-color: var(--accent) !important;
-    transform: translateY(-2px) !important;
-    box-shadow:
-            4px 4px 10px var(--shadow-d),
-            -2px -2px 6px var(--shadow-l),
-            0 0 0 2px rgba(108,99,255,.25) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 3px 8px var(--shadow-d) !important;
 }
 
-.horario-slot-seleccionado{
-    border: 3px solid var(--accent) !important;
-    background-color: var(--accent) !important;
-    transform: translateY(-2px) !important;
-    box-shadow:
-            4px 4px 10px var(--shadow-d),
-            -2px -2px 6px var(--shadow-l),
-            0 0 0 2px rgba(108,99,255,.25) !important;
-
+.horario-slot-seleccionado {
+    border: 2px solid var(--accent) !important;
+    background-color: rgba(212, 196, 106, 0.12) !important;
+    transform: translateY(-5px) !important;
+    box-shadow: 0 3px 8px var(--shadow-d) !important;
 }
 
 .horario-slot-seleccionado strong {
-    color: var(--bg) !important;
+    color: var(--accent2) !important;
 }
 
 /* ── Badges libre/ocupado ───────────────────────────────────────────────────── */
 .badge-libre {
-    background: rgba(74,222,128,.12);
+    background: rgba(126, 200, 160, 0.1);
     color: var(--success);
-    border: 1px solid rgba(74,222,128,.3);
-    border-radius: 6px;
-    font-size: .7rem;
+    border: 1px solid rgba(126, 200, 160, 0.3);
+    border-radius: 5px;
+    font-size: .68rem;
     font-weight: 600;
-    padding: .15rem .5rem;
+    padding: .15rem .45rem;
     text-transform: uppercase;
     letter-spacing: .05em;
 }
 
 .badge-ocupado {
-    background: rgba(248,113,113,.12);
+    background: rgba(224, 128, 128, 0.1);
     color: var(--danger);
-    border: 1px solid rgba(248,113,113,.3);
-    border-radius: 6px;
-    font-size: .7rem;
+    border: 1px solid rgba(224, 128, 128, 0.3);
+    border-radius: 5px;
+    font-size: .68rem;
     font-weight: 600;
-    padding: .15rem .5rem;
+    padding: .15rem .45rem;
     text-transform: uppercase;
     letter-spacing: .05em;
 }
@@ -280,59 +285,41 @@ hr {
 /* ── Filas de horarios admin ────────────────────────────────────────────────── */
 .horario-row {
     background-color: var(--bg) !important;
-    border: 1px solid rgba(108,99,255,.15) !important;
-    border-radius: 12px !important;
-    padding: .7rem 1rem !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 10px !important;
+    padding: .65rem 1rem !important;
     color: var(--text) !important;
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    transition: background .2s !important;
-    box-shadow:
-            3px 3px 8px var(--shadow-d),
-            -2px -2px 5px var(--shadow-l) !important;
-    margin-bottom: .5rem;
+    transition: border-color .15s !important;
+    box-shadow: 0 1px 3px var(--shadow-d) !important;
+    margin-bottom: .4rem;
 }
 
 .horario-row:hover {
-    border-color: rgba(108,99,255,.35) !important;
+    border-color: rgba(212, 196, 106, 0.3) !important;
 }
 
 /* ── Items de reserva ───────────────────────────────────────────────────────── */
 .reserva-item {
     background-color: var(--bg) !important;
-    border: 1px solid rgba(108,99,255,.15) !important;
-    border-radius: 14px !important;
-    padding: .9rem 1.1rem !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 10px !important;
+    padding: .85rem 1rem !important;
     color: var(--text) !important;
-    transition: all .2s !important;
-    box-shadow:
-            3px 3px 8px var(--shadow-d),
-            -2px -2px 6px var(--shadow-l) !important;
-    margin-bottom: .5rem;
+    transition: border-color .15s !important;
+    box-shadow: 0 1px 3px var(--shadow-d) !important;
+    margin-bottom: .4rem;
 }
 
 .reserva-item:hover {
-    border-color: rgba(108,99,255,.3) !important;
+    border-color: rgba(212, 196, 106, 0.3) !important;
 }
 
 .reserva-item strong {
     color: var(--accent2);
 }
-
-#buscador-reservas::placeholder {
-    color: var(--muted) !important;
-    opacity: 0.7;
-}
-/* ── Textos de carga/vacío ──────────────────────────────────────────────────── */
-p[style*="color:#888"] {
-    color: var(--muted) !important;
-    font-style: italic;
-    font-size: .88rem;
-    text-align: center;
-    padding: 1rem 0;
-}
-
 
 /* ── Scrollbars ─────────────────────────────────────────────────────────────── */
 #horarios-container {
@@ -345,40 +332,29 @@ p[style*="color:#888"] {
     overflow-y: auto;
 }
 
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: var(--bg); border-radius: 3px; }
-::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(212, 196, 106, 0.3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
-/* ── SweetAlert2 tema oscuro ────────────────────────────────────────────────── */
+/* ── SweetAlert2 ────────────────────────────────────────────────────────────── */
 .swal2-container { z-index: 99999 !important; }
 
 .swal2-popup {
     background-color: var(--bg-light) !important;
     color: var(--text) !important;
     border: 1px solid var(--border) !important;
-    border-radius: 20px !important;
-    box-shadow: 8px 8px 24px var(--shadow-d) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 4px 20px var(--shadow-d) !important;
 }
 
 .swal2-title  { color: var(--text) !important; }
 .swal2-html-container { color: var(--muted) !important; }
 .swal2-icon { border-color: var(--accent) !important; }
 
+/* ── Responsive ─────────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
-    .container {
-        position: relative;
-        top: 0;
-        left: 0;
-        margin: 20px auto;
-        margin-left: auto;
-        width: 90%;
-    }
-
-    body {
-        padding: 10px;
-    }
-
-    .form-row {
-        flex-direction: column;
-    }
+    body { padding: 1rem .5rem 3rem; }
+    .card-custom { padding: 1.25rem !important; }
+    .panel-header h1 { font-size: 1.4rem; }
 }
