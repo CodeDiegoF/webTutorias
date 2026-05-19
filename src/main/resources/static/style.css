@@ -320,6 +320,10 @@ hr {
     color: var(--accent2);
 }
 
+#buscador-reservas::placeholder {
+    color: var(--muted) !important;
+    opacity: 0.7;
+}
 /* ── Textos de carga/vacío ──────────────────────────────────────────────────── */
 p[style*="color:#888"] {
     color: var(--muted) !important;
@@ -328,6 +332,7 @@ p[style*="color:#888"] {
     text-align: center;
     padding: 1rem 0;
 }
+
 
 /* ── Scrollbars ─────────────────────────────────────────────────────────────── */
 #horarios-container {

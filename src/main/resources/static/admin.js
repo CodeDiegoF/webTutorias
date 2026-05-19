@@ -47,15 +47,19 @@ function renderHorarios(horarios) {
     });
 }
 
-
 // ── Cargar reservas ───────────────────────────────────────────────────────────
 /**
  * Carga y pinta las reservas realizadas por los alumnos.
  */
+let todasLasReservas = []; // variable global
+
 async function cargarReservas() {
     const response = await fetch("http://localhost:8080/reservas");
-    const reservas = await response.json();
+    todasLasReservas = await response.json(); // guarda en la variable global
+    renderReservas(todasLasReservas);
+}
 
+function renderReservas(reservas) {
     reservasContainer.innerHTML = "";
 
     if (!reservas.length) {
@@ -80,9 +84,17 @@ async function cargarReservas() {
     });
 }
 
+document.getElementById('buscador-reservas').addEventListener('input', function() {
+    const texto = this.value.toLowerCase().trim();
+    const filtradas = todasLasReservas.filter(r =>
+        (r.nombreAlumno || '').toLowerCase().includes(texto)
+    );
+    renderReservas(filtradas);
+});
+
 // ── Crear horario ─────────────────────────────────────────────────────────────
 /**
- * Maneja el envio del formulario para publicar un horario disponible.
+ * Maneja el envío del formulario para publicar un horario disponible.
  */
 horarioForm.addEventListener("submit", async (e) => {
     e.preventDefault();
