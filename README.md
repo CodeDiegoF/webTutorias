@@ -1,180 +1,151 @@
-# Tutorías - Sistema de reservas
+# Tutorías - Sistema de Gestión y Reserva
 
-Aplicación web con Spring Boot para gestionar horarios de tutorías y reservas de alumnos.
+Aplicación web con Spring Boot para gestionar horarios de tutorías, reservas de alumnos e historial de sesiones.
 
-## Funcionalidades principales
+## Estado actual del proyecto
 
-- Crear horarios disponibles desde el panel de administración.
-- Mostrar al alumno solo los horarios disponibles.
-- Reservar una tutoría indicando nombre, email, fecha y hora.
-- Cancelar reservas desde la vista del alumno.
-- Eliminar horarios desde el panel de administración.
+- Autenticación propia por API (`/auth/login`, `/auth/registro`) con almacenamiento en `sessionStorage` del frontend.
+- Panel de profesor para crear/eliminar horarios y consultar reservas e historial.
+- Vista de alumno para reservar y cancelar tutorías.
+- Reglas de negocio activas para evitar reservas inválidas o duplicadas.
 
-## Nuevos cambios documentados
+## Funcionalidades implementadas
 
-### 1. Puerto de ejecución
+### Profesor (`admin.html`)
 
-La aplicación arranca por defecto en el puerto `8080`.
+- Crear horarios (fecha/hora) marcados como disponibles.
+- Ver todos los horarios y filtrarlos por estado (todos/libres/ocupados).
+- Eliminar horarios (si había reserva asociada al mismo tramo, se limpia primero).
+- Ver reservas futuras.
+- Ver historial de tutorías pasadas.
 
-En `src/main/resources/application.properties`:
+### Alumno (`reservaTutorías.html`)
 
-```properties
-server.port=8080
-```
+- Ver solo horarios disponibles y futuros.
+- Seleccionar un horario desde la lista.
+- Crear una reserva con nombre, email, fecha y hora.
+- Ver sus propias reservas filtradas por email.
+- Cancelar reservas.
 
-### 2. Rutas relativas en el frontend
+### Login/Registro (`index.html`)
 
-Los archivos `src/main/resources/static/reservaScript.js` y `src/main/resources/static/admin.js` ahora usan rutas relativas como:
+- Registro de alumnos (`rol = ALUMNO`).
+- Inicio de sesión con redirección por rol:
+  - `PROFESOR` -> `admin.html`
+  - `ALUMNO` -> `reservaTutorías.html`
 
-- `/horarios`
-- `/horarios/admin`
-- `/reservas`
+## Reglas de negocio clave
 
-Esto hace que la aplicación funcione correctamente aunque cambie el puerto.
+- Una reserva solo se crea si existe un horario para esa fecha/hora.
+- No se permite reservar un horario marcado como no disponible.
+- No se permiten reservas duplicadas para la misma fecha/hora.
+- Al reservar, el horario pasa a `disponible = false`.
+- Al cancelar reserva, el horario asociado vuelve a `disponible = true`.
 
-### 3. Panel de administración
-
-La vista `admin.html` permite:
-
-- Crear horarios nuevos.
-- Ver todos los horarios.
-- Ver todas las reservas.
-- Eliminar horarios.
-
-### 4. Vista de alumno
-
-La vista `index.html` permite:
-
-- Ver horarios disponibles.
-- Seleccionar un horario haciendo clic.
-- Reservar tutoría.
-- Ver y cancelar sus reservas.
-
-### 5. Validación de reservas
-
-El backend valida que una reserva solo se cree si existe un horario para esa fecha y hora.
-
-## Estructura del proyecto
+## Arquitectura (backend)
 
 ```text
 src/main/java/com/webTutoria/tutorias/
-├── controller/
-├── model/
-├── repositorio/
-└── service/
+|- config/        (SecurityConfig)
+|- controller/    (AuthController, HorarioController, ReservaController)
+|- dto/           (AuthDTO)
+|- model/         (Usuario, Horario, Reserva)
+|- repositorio/   (Spring Data JPA repositories)
+`- service/       (logica de negocio)
 ```
+
+## Frontend estático
 
 ```text
 src/main/resources/static/
-├── index.html
-├── admin.html
-├── reservaScript.js
-├── admin.js
-└── style.css
+|- index.html            (login/registro)
+|- login.js
+|- admin.html            (panel profesor)
+|- admin.js
+|- reservaTutorías.html  (panel alumno)
+|- reservaScript.js
+|- style.css
+`- styleLogin.css
 ```
 
-## Ejecutar la aplicación
+## Configuración
 
-### Compilar
+Archivo: `src/main/resources/application.properties`
+
+Variables soportadas:
+
+- `DB_URL` (default: `jdbc:mysql://localhost:3306/tutoriasbd`)
+- `DB_USERNAME` (default: `root`)
+- `DB_PASSWORD` (sin default)
+- `ADMIN_KEY` (default: `secret-admin`, actualmente informativa)
+
+Propiedades actuales:
+
+```properties
+spring.application.name=tutorias
+spring.datasource.url=${DB_URL:jdbc:mysql://localhost:3306/tutoriasbd}
+spring.datasource.username=${DB_USERNAME:root}
+spring.datasource.password=${DB_PASSWORD}
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
+app.admin.key=${ADMIN_KEY:secret-admin}
+```
+
+## Cómo ejecutar en local (Windows PowerShell)
+
+### 1) Compilar
 
 ```powershell
 cd "C:\Users\DiegoFA\OneDrive\Escritorio\webTutorias\tutorias\tutorias"
 .\mvnw.cmd -DskipTests package
 ```
 
-### Iniciar
+### 2) Ejecutar
 
 ```powershell
 cd "C:\Users\DiegoFA\OneDrive\Escritorio\webTutorias\tutorias\tutorias"
 .\mvnw.cmd spring-boot:run
 ```
 
-La aplicación quedará disponible en:
+## URLs de la aplicación
 
-```text
-http://localhost:8080
-```
+- Login/Registro: `http://localhost:8080/index.html`
+- Panel profesor: `http://localhost:8080/admin.html`
+- Panel alumno: `http://localhost:8080/reservaTutorías.html`
 
-## URLs útiles
+## API REST
 
-- Vista del alumno: `http://localhost:8080/index.html`
-- Panel de administración: `http://localhost:8080/admin.html`
+### Auth
 
-## Endpoints principales
+- `POST /auth/registro`
+- `POST /auth/login`
 
 ### Horarios
 
-- `GET /horarios` → devuelve solo horarios disponibles.
-- `GET /horarios/admin` → devuelve todos los horarios.
-- `POST /horarios` → crea un horario.
-- `DELETE /horarios/{id}` → elimina un horario.
+- `GET /horarios` -> horarios disponibles (y futuros)
+- `GET /horarios/admin` -> todos los horarios
+- `POST /horarios` -> crear horario
+- `DELETE /horarios/{id}` -> eliminar horario
 
 ### Reservas
 
-- `GET /reservas` → lista todas las reservas.
-- `POST /reservas` → crea una reserva si el horario existe y está disponible.
-- `DELETE /reservas/{id}` → cancela una reserva.
+- `GET /reservas` -> todas las reservas
+- `GET /reservas/admin` -> todas las reservas (vista admin)
+- `GET /reservas/historial` -> reservas pasadas
+- `POST /reservas` -> crear reserva
+- `DELETE /reservas/{id}` -> cancelar reserva
 
-## Flujo de uso
+## Notas importantes
 
-1. El administrador entra en `admin.html`.
-2. Crea horarios disponibles.
-3. El alumno entra en `index.html`.
-4. El alumno ve solo los horarios disponibles.
-5. Selecciona un horario y realiza la reserva.
-6. Cuando se reserva, ese horario deja de estar disponible.
+- El frontend usa rutas relativas en JS (`/horarios`, `/reservas`, etc.), por lo que no depende de un `http://localhost:8080` fijo.
+  Si cambias el puerto del servidor, las peticiones seguirán funcionando mientras accedas por la misma base URL de la app.
+- `app.admin.key` está definido en propiedades, pero el acceso al panel admin se basa hoy en redirección por rol de usuario en frontend, no en validación de cabecera en los controladores.
 
-## Nota importante
-
-Por ahora el panel de administración está separado en una vista distinta, pero **no hay autenticación real** implementada en el backend. 
-
-## Estructura del proyecto
-
-- `src/main/java/com/webTutoria/tutorias/model`: entidades JPA (`Horario`, `Reserva`).
-- `src/main/java/com/webTutoria/tutorias/repositorio`: acceso a datos con Spring Data JPA.
-- `src/main/java/com/webTutoria/tutorias/service`: logica de negocio.
-- `src/main/java/com/webTutoria/tutorias/controller`: API REST.
-- `src/main/resources/static`: interfaz web (alumno y admin).
-
-## Flujo funcional
-
-1. El profesor crea horarios desde `admin.html`.
-2. El alumno visualiza horarios disponibles en `index.html`.
-3. El alumno reserva un horario.
-4. El horario reservado se marca como no disponible.
-5. Al eliminar una reserva, el horario vuelve a estar disponible.
-
-
-## Validaciones de negocio
-
-- No se permite reservar una fecha/hora sin horario creado previamente o marcado como no disponible.
-- No se permiten reservas duplicadas para la misma fecha/hora.
-
-## Configuracion local
-
-Archivo: `src/main/resources/application.properties`
-
-- Base de datos: H2 en memoria.
-- Esquema JPA: `create-drop`.
-- SQL visible en consola: activado.
-- Clave admin simple: `app.admin.key`.
-
-## Ejecutar en local
-
-```powershell
-cd "C:\Users\DiegoFA\OneDrive\Escritorio\webTutorias\tutorias\tutorias"
-.\mvnw.cmd spring-boot:run
-```
-
-## Ejecutar pruebas
+## Pruebas
 
 ```powershell
 cd "C:\Users\DiegoFA\OneDrive\Escritorio\webTutorias\tutorias\tutorias"
 .\mvnw.cmd test
 ```
-
-## Vistas web
-
-- Alumno: `http://localhost:8080/index.html`
-- Administrador: `http://localhost:8080/admin.html`
-
