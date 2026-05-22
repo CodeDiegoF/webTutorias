@@ -18,10 +18,14 @@ public class HorarioService {
 
     private final HorarioRepository horarioRepository;
     private final ReservaRepository reservaRepository;
+    private final EmailService emailService;
 
-    public HorarioService(HorarioRepository horarioRepository, ReservaRepository reservaRepository) {
+    public HorarioService(HorarioRepository horarioRepository,
+                          ReservaRepository reservaRepository,
+                          EmailService emailService) {
         this.horarioRepository = horarioRepository;
         this.reservaRepository = reservaRepository;
+        this.emailService = emailService;
     }
 
     /**
@@ -62,8 +66,16 @@ public class HorarioService {
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Horario no encontrada."));
 
+        // Si tiene reserva asociada, notificar al alumno y eliminarla
         reservaRepository.findByFechaAndHora(horario.getFecha(), horario.getHora())
+                .stream().findFirst()
                 .ifPresent(reserva -> {
+                    emailService.notificarAlumnoHorarioEliminado(
+                            reserva.getEmailAlumno(),
+                            reserva.getNombreAlumno(),
+                            horario.getFecha().toString(),
+                            horario.getHora().toString()
+                    );
                     reservaRepository.delete(reserva);
                 });
 

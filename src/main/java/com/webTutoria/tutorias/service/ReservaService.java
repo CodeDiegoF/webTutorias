@@ -18,10 +18,14 @@ public class ReservaService {
 
     private final ReservaRepository reservaRepository;
     private final HorarioRepository horarioRepository;
+    private final EmailService emailService;
 
-    public ReservaService(ReservaRepository reservaRepository, HorarioRepository horarioRepository) {
+    public ReservaService(ReservaRepository reservaRepository,
+                          HorarioRepository horarioRepository,
+                          EmailService emailService) {
         this.reservaRepository = reservaRepository;
         this.horarioRepository = horarioRepository;
+        this.emailService = emailService;
     }
 
     /**
@@ -51,7 +55,17 @@ public class ReservaService {
         horario.setDisponible(false);
         horarioRepository.save(horario);
 
-        return reservaRepository.save(reserva);
+        Reserva guardada = reservaRepository.save(reserva);
+
+        // Notificar al profesor
+        emailService.notificarProfesorReserva(
+                reserva.getNombreAlumno(),
+                reserva.getEmailAlumno(),
+                reserva.getFecha().toString(),
+                reserva.getHora().toString()
+        );
+
+        return guardada;
     }
 
     /**
@@ -68,6 +82,14 @@ public class ReservaService {
         Reserva reserva = reservaRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Reserva no encontrada."));
+
+        // Notificar al profesor de la cancelación
+        emailService.notificarProfesorCancelacion(
+                reserva.getNombreAlumno(),
+                reserva.getEmailAlumno(),
+                reserva.getFecha().toString(),
+                reserva.getHora().toString()
+        );
 
         horarioRepository.findByFechaAndHora(reserva.getFecha(), reserva.getHora())
                 .ifPresent(horario -> {
