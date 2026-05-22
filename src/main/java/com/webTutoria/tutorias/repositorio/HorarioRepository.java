@@ -20,5 +20,4 @@ public interface HorarioRepository extends JpaRepository<Horario, Long> {
      * Localiza un horario exacto por fecha y hora, independientemente de su estado.
      */
     Optional<Horario> findByFechaAndHora(LocalDate fecha, LocalTime hora);
-
 }

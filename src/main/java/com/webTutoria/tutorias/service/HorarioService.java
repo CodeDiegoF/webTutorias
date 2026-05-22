@@ -70,4 +70,16 @@ public class HorarioService {
         horarioRepository.deleteById(id);
     }
 
+    /**
+     * Busca horarios pasados (fecha/hora anteriores al momento actual) para mostrar el historial.
+     */
+    public List<Horario> obtenerHistorialHorarios() {
+        LocalDate hoy = LocalDate.now();
+        LocalTime ahora = LocalTime.now();
+
+        return horarioRepository.findAll().stream()
+                .filter(h -> h.getFecha().isBefore(hoy) ||
+                        (h.getFecha().isEqual(hoy) && h.getHora().isBefore(ahora)))
+                .collect(java.util.stream.Collectors.toList());
+    }
 }

@@ -1,5 +1,6 @@
 package com.webTutoria.tutorias.controller;
 import com.webTutoria.tutorias.model.Horario;
+import com.webTutoria.tutorias.model.Reserva;
 import com.webTutoria.tutorias.service.HorarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,6 +57,17 @@ public class HorarioController {
     @GetMapping("/admin")
     public List<Horario> obtenerHorarios(){
         return horarioService.obtenerHorarios();
+    }
+
+    /**
+     * Endpoint para ver el historial de horarios.
+     *
+     * @return lista de horarios de los alumnos
+     */
+
+    @GetMapping("/historial")
+    public List<Horario> obtenerHistorialHorarios() {
+        return horarioService.obtenerHistorialHorarios();
     }
 
     /**

@@ -21,10 +21,21 @@ async function cargarHorarios() {
 }
 
 function filtrarHorarios(tipo) {
+    const hoy   = new Date().toISOString().split('T')[0];
+    const ahora = new Date().toTimeString().slice(0, 5);
+
     let filtrados;
-    if (tipo === 'libre') filtrados = todosLosHorarios.filter(h => h.disponible);
-    else if (tipo === 'ocupado') filtrados = todosLosHorarios.filter(h => !h.disponible);
-    else filtrados = todosLosHorarios;
+    if (tipo === 'libre')
+        filtrados = todosLosHorarios.filter(h => h.disponible &&
+            (h.fecha > hoy || (h.fecha === hoy && h.hora.slice(0, 5) >= ahora)));
+    else if (tipo === 'ocupado')
+        filtrados = todosLosHorarios.filter(h => !h.disponible &&
+            (h.fecha > hoy || (h.fecha === hoy && h.hora.slice(0, 5) >= ahora)));
+    else if (tipo === 'pasado')
+        filtrados = todosLosHorarios.filter(h =>
+            h.fecha < hoy || (h.fecha === hoy && h.hora.slice(0, 5) < ahora));
+    else
+        filtrados = todosLosHorarios;
     renderHorarios(filtrados);
 }
 
@@ -36,13 +47,19 @@ function renderHorarios(horarios) {
         return;
     }
 
+    const hoy   = new Date().toISOString().split('T')[0];
+    const ahora = new Date().toTimeString().slice(0, 5);
+
     horarios.forEach(horario => {
+        const esPasado = horario.fecha < hoy ||
+            (horario.fecha === hoy && horario.hora.slice(0, 5) < ahora);
+
         const div = document.createElement("div");
         div.classList.add("horario-slot", "col-md-4", "col-6");
         div.innerHTML = `
             <strong>${horario.fecha}</strong> — ${horario.hora}
-            <span class="${horario.disponible ? 'badge-libre' : 'badge-ocupado'}">
-                ${horario.disponible ? '✅ Libre' : '❌ Ocupado'}
+            <span class="${esPasado ? 'badge-ocupado' : (horario.disponible ? 'badge-libre' : 'badge-ocupado')}">
+                ${esPasado ? '🕓 Pasado' : (horario.disponible ? '✅ Libre' : '❌ Ocupado')}
             </span>
             <button class="btn-eliminar" onclick="eliminarHorario(${horario.id})">Eliminar</button>
         `;
@@ -208,8 +225,8 @@ async function eliminarHorario(id) {
 
 // ── Cargar historial ──────────────────────────────────────────────────────────
 /**
-    * Carga el historial de tutorías pasadas, mostrando solo las reservas que ya han ocurrido.
-    * Permite filtrar por nombre del alumno.
+ * Carga el historial de tutorías pasadas, mostrando solo las reservas que ya han ocurrido.
+ * Permite filtrar por nombre del alumno.
  */
 
 
