@@ -9,7 +9,7 @@ const horaInput         = document.getElementById("hora");
  * los campos de fecha y hora del formulario de reserva.
  */
 async function cargarHorarios() {
-    const response = await fetch("http://localhost:8080/horarios");
+    const response = await fetch("/horarios");
     const horarios = await response.json();
 
     horariosContainer.innerHTML = "";
@@ -44,7 +44,7 @@ async function cargarHorarios() {
 async function cargarMisReservas(emailAlumno) {
     if (!emailAlumno) return;
 
-    const response = await fetch("http://localhost:8080/reservas");
+    const response = await fetch("/reservas");
     const reservas = await response.json();
 
     const misReservas = reservas.filter(r => r.emailAlumno === emailAlumno);
@@ -102,7 +102,7 @@ reservaForm.addEventListener("submit", async (e) => {
 
     if (!result.isConfirmed) return;
 
-    const response = await fetch("http://localhost:8080/reservas", {
+    const response = await fetch("/reservas", {
         method: "POST",
         headers: {
             "Accept":       "application/json",
@@ -154,7 +154,7 @@ async function cancelarReserva(id) {
 
     if (!result.isConfirmed) return;
 
-    const response = await fetch(`http://localhost:8080/reservas/${id}`, {
+    const response = await fetch(`/reservas/${id}`, {
         method: "DELETE"
     });
 

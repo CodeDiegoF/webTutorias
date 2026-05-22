@@ -110,6 +110,7 @@ hr {
     text-transform: uppercase;
     letter-spacing: .06em;
     margin-bottom: .35rem;
+    text-align: center;
     display: block;
 }
 
@@ -124,6 +125,9 @@ hr {
     padding: .65rem .95rem !important;
     box-shadow: inset 0 1px 3px var(--shadow-d) !important;
     transition: border-color .2s !important;
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
     width: 100%;
 }
 
