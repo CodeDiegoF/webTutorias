@@ -85,10 +85,10 @@ public class UsuarioService {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "El enlace ha expirado.");
         }
+        System.out.println("Nueva contraseña recibida: " + nuevaContraseña);
+        System.out.println("Password encoded: " + passwordEncoder.encode(nuevaContraseña));
 
         usuario.setPassword(passwordEncoder.encode(nuevaContraseña));
-        usuario.setResetToken(null);
-        usuario.setTokenExpiry(null);
         usuarioRepository.save(usuario);
     }
 }

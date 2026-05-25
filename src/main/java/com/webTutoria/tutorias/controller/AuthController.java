@@ -75,7 +75,7 @@ public class AuthController {
     @PostMapping("/reset")
     public ResponseEntity<?> reset(@RequestBody AuthDTO.ResetRequest req) {
         try {
-            usuarioService.resetearContraseña(req.token, req.contraseña);
+            usuarioService.resetearContraseña(req.token, req.password);
             return ResponseEntity.ok("Contraseña actualizada correctamente.");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
