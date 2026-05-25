@@ -15,6 +15,12 @@ public class AuthDTO {
         public String password;
     }
 
+    // Lo que envía el frontend al solicitar recuperación de contraseña
+    public static class ResetRequest {
+        public String token;
+        public String contraseña;
+    }
+
     // Lo que devuelve el servidor tras login/registro exitoso
     public static class AuthResponse {
         public Long id;

@@ -3,6 +3,8 @@ package com.webTutoria.tutorias.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -32,4 +34,7 @@ public class Usuario {
     public enum Rol {
         ALUMNO, PROFESOR
     }
+
+    private String resetToken;
+    private LocalDateTime tokenExpiry;
 }

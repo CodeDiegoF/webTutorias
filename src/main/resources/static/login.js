@@ -6,6 +6,35 @@ const loginBtn    = document.getElementById('sign-in-btn');
 registerBtn.addEventListener('click', () => container.classList.add("toggle"));
 loginBtn.addEventListener('click',    () => container.classList.remove("toggle"));
 
+// ── Recuperar contraseña ──────────────────────────────────────────────────────
+document.querySelector('.sign-in a').addEventListener('click', async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById('login-email').value.trim();
+
+    if (!email) {
+        mostrarError(signInForm, 'Introduce tu correo antes de recuperar la contraseña.');
+        return;
+    }
+
+    try {
+        const res = await fetch('/auth/recuperar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
+        });
+
+        if (res.ok) {
+            alert('Te hemos enviado un email con las instrucciones para recuperar tu contraseña.');
+        } else {
+            const msg = await res.text();
+            mostrarError(signInForm, msg || 'No existe ninguna cuenta con ese correo.');
+        }
+    } catch {
+        mostrarError(signInForm, 'Error de conexión.');
+    }
+});
+
 // ── Utilidad: mostrar error bajo el formulario ───────────────────────────────
 function mostrarError(form, mensaje) {
     let err = form.querySelector('.error-msg');
@@ -36,6 +65,13 @@ signUpForm.addEventListener('submit', async (e) => {
 
     if (!nombre || !email || !password) {
         mostrarError(signUpForm, 'Rellena todos los campos.');
+        return;
+    }
+
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+    if (!passwordRegex.test(password)) {
+        mostrarError(signUpForm, 'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número.');
         return;
     }
 

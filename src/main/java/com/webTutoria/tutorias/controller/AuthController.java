@@ -51,4 +51,34 @@ public class AuthController {
                 u.getRol().name()
         );
     }
+
+    /**
+     * Solicita recuperación de contraseña.
+     * POST /auth/recuperar
+     * Body: { "email": "..." }
+     */
+    @PostMapping("/recuperar")
+    public ResponseEntity<?> recuperar(@RequestBody AuthDTO.LoginRequest req) {
+        try {
+            usuarioService.solicitarRecuperacion(req.email);
+            return ResponseEntity.ok("Email de recuperación enviado.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    /**
+     * Resetea la contraseña con el token recibido por email.
+     * POST /auth/reset
+     * Body: { "token": "...", "contraseña": "..." }
+     */
+    @PostMapping("/reset")
+    public ResponseEntity<?> reset(@RequestBody AuthDTO.ResetRequest req) {
+        try {
+            usuarioService.resetearContraseña(req.token, req.contraseña);
+            return ResponseEntity.ok("Contraseña actualizada correctamente.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

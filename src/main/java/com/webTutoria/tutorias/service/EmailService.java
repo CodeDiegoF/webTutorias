@@ -69,4 +69,22 @@ public class EmailService {
         );
         mailSender.send(msg);
     }
+
+    /**
+     * Envía el email de recuperación de contraseña con el enlace.
+     */
+    public void enviarRecuperacion(String emailDestino, String token) {
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setFrom(emailRemitente);
+        msg.setTo(emailDestino);
+        msg.setSubject("Recuperación de contraseña - TutorApp");
+        msg.setText(
+                "Has solicitado restablecer tu contraseña.\n\n" +
+                        "Haz click en el siguiente enlace para crear una nueva contraseña:\n\n" +
+                        "http://localhost:8080/resetPassword.html?token=" + token + "\n\n" +
+                        "Este enlace expirará en 1 hora.\n\n" +
+                        "Si no has solicitado este cambio, ignora este mensaje."
+        );
+        mailSender.send(msg);
+    }
 }
