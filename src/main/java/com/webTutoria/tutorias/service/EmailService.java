@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailService {
 
+    @Value("${app.url}")
+    private String appUrl;
+
     private final JavaMailSender mailSender;
 
     @Value("${profesor.email}")
@@ -81,7 +84,7 @@ public class EmailService {
         msg.setText(
                 "Has solicitado restablecer tu contraseña.\n\n" +
                         "Haz click en el siguiente enlace para crear una nueva contraseña:\n\n" +
-                        "http://localhost:8080/resetContrasenia.html?token=" + token + "\n\n" +
+                        appUrl + "/resetPassword.html?token=" + token + "\n\n" +
                         "Este enlace expirará en 1 hora.\n\n" +
                         "Si no has solicitado este cambio, ignora este mensaje."
         );

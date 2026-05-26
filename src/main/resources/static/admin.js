@@ -15,7 +15,7 @@ let todosLasHistorial = [];
  * incluyendo filtrado
  */
 async function cargarHorarios() {
-    const response = await fetch("http://localhost:8080/horarios/admin");
+    const response = await fetch("/horarios/admin");
     todosLosHorarios = await response.json();
     renderHorarios(todosLosHorarios);
 }
@@ -72,7 +72,7 @@ function renderHorarios(horarios) {
  * Carga y pinta las reservas realizadas por los alumnos.
  */
 async function cargarReservas() {
-    const response = await fetch("http://localhost:8080/reservas");
+    const response = await fetch("/reservas");
     const todas = await response.json();
 
     const hoy   = new Date().toISOString().split('T')[0];
@@ -144,7 +144,7 @@ horarioForm.addEventListener("submit", async (e) => {
 
     if (!result.isConfirmed) return;
 
-    const response = await fetch("http://localhost:8080/horarios", {
+    const response = await fetch("/horarios", {
         method: "POST",
         headers: {
             "Accept":       "application/json",
@@ -197,7 +197,7 @@ async function eliminarHorario(id) {
 
     if (!result.isConfirmed) return;
 
-    const response = await fetch(`http://localhost:8080/horarios/${id}`, {
+    const response = await fetch(`/horarios/${id}`, {
         method: "DELETE"
     });
 
@@ -231,7 +231,7 @@ async function eliminarHorario(id) {
 
 
 async function cargarHistorial() {
-    const response = await fetch("http://localhost:8080/reservas/historial");
+    const response = await fetch("/reservas/historial");
     todosLasHistorial = await response.json();
     renderHistorial(todosLasHistorial);
 }
