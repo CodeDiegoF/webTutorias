@@ -25,12 +25,16 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/",
+                                "/index",
                                 "/auth/**",
                                 "/horarios/**",
                                 "/reservas/**",
-                                "/*.html",
-                                "/*.js",
-                                "/*.css"
+                                "/reservaTutorias",
+                                "/reservaTutorías",
+                                "/css/**",
+                                "/js/**",
+                                "/images/**",
+                                "/favicon.ico"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
