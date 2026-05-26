@@ -30,9 +30,10 @@ public class SecurityConfig {
                                 "/reservas/**",
                                 "/reservaTutorías",
                                 "/admin",
-                                "/*.html",
-                                "/*.js",
-                                "/*.css"
+                                "/css/**",
+                                "/js/**",
+                                "/images/**",
+                                "/favicon.ico"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
