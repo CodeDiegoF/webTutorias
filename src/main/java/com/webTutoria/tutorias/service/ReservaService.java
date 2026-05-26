@@ -83,7 +83,7 @@ public class ReservaService {
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Reserva no encontrada."));
 
-        // Notificar al profesor de la cancelación
+        // Notificar al profesor de la cancelacion
         emailService.notificarProfesorCancelacion(
                 reserva.getNombreAlumno(),
                 reserva.getEmailAlumno(),

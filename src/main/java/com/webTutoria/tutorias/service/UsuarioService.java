@@ -63,18 +63,18 @@ public class UsuarioService {
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "No existe ninguna cuenta con ese correo."));
 
-        // Genera un token único
+        // Genera un token unico
         String token = UUID.randomUUID().toString();
         usuario.setResetToken(token);
         usuario.setTokenExpiry(LocalDateTime.now().plusHours(1)); // expira en 1 hora
         usuarioRepository.save(usuario);
 
-        // Envía el email con el enlace
+        // Envia el email con el enlace
         emailService.enviarRecuperacion(email, token);
     }
 
     /**
-     * Valida el token y actualiza la contraseña.
+     * Valida el token y actualiza la contrasena.
      */
     public void resetearContraseña(String token, String nuevaContraseña) {
         Usuario usuario = usuarioRepository.findByResetToken(token)

@@ -11,7 +11,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 
-// Añado un restricción que permita que no se puedan crear reservas con la misma fecha y hora.
+// Anado una restriccion que permita que no se puedan crear reservas con la misma fecha y hora.
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {"fecha", "hora"})
 })
@@ -20,7 +20,7 @@ import java.time.LocalTime;
 public class Reserva {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //Le dice a la BD que genere automáticamente el valor al insertar un nuevo registro.
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //Le dice a la BD que genere automaticamente el valor al insertar un nuevo registro.
     private Long id;
 
     private String nombreAlumno;

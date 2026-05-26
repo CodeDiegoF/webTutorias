@@ -74,7 +74,7 @@ public class EmailService {
     }
 
     /**
-     * Envía el email de recuperación de contraseña con el enlace.
+     * Envia el email de recuperación de contraseña con el enlace.
      */
     public void enviarRecuperacion(String emailDestino, String token) {
         SimpleMailMessage msg = new SimpleMailMessage();

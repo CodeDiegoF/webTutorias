@@ -78,7 +78,7 @@ async function cargarReservas() {
     const hoy   = new Date().toISOString().split('T')[0];
     const ahora = new Date().toTimeString().slice(0, 5);
 
-    // Solo reservas futuras o de hoy cuya hora aún no ha pasado
+    // Solo reservas futuras o de hoy cuya hora aun no ha pasado
     todasLasReservas = todas.filter(r =>
         r.fecha > hoy || (r.fecha === hoy && r.hora.slice(0, 5) > ahora)
     );

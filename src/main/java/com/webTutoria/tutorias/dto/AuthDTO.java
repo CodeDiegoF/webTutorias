@@ -2,20 +2,20 @@ package com.webTutoria.tutorias.dto;
 
 public class AuthDTO {
 
-    // Lo que envía el frontend al registrarse
+    // Lo que envia el frontend al registrarse
     public static class RegistroRequest {
         public String nombre;
         public String email;
         public String password;
     }
 
-    // Lo que envía el frontend al hacer login
+    // Lo que envia el frontend al hacer login
     public static class LoginRequest {
         public String email;
         public String password;
     }
 
-    // Lo que envía el frontend al solicitar recuperación de contraseña
+    // Lo que envia el frontend al solicitar recuperacion de contrasena
     public static class ResetRequest {
         public String token;
         public String password;
