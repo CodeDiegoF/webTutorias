@@ -25,6 +25,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/",
+                                "/error",
                                 "/auth/**",
                                 "/horarios/**",
                                 "/reservas/**",
