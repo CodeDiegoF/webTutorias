@@ -24,16 +24,15 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/",                   // Permite la entrada al index.html automatico
-                                "/error",              // Permite ver errores reales si los hay
-                                "/*.html",             // Permite cargar tus otras paginas estaticas
+                                "/",
                                 "/auth/**",
                                 "/horarios/**",
                                 "/reservas/**",
-                                "/css/**",
-                                "/js/**",
-                                "/images/**",
-                                "/favicon.ico"
+                                "/reservaTutorías",
+                                "/admin",
+                                "/*.html",
+                                "/*.js",
+                                "/*.css"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
