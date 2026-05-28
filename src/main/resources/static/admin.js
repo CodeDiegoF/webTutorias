@@ -150,8 +150,7 @@ horarioForm.addEventListener("submit", async (e) => {
             "Accept":       "application/json",
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(horario),
-        credentials: "include"
+        body: JSON.stringify(horario)
     });
 
     if (response.ok) {
@@ -199,8 +198,7 @@ async function eliminarHorario(id) {
     if (!result.isConfirmed) return;
 
     const response = await fetch(`/horarios/${id}`, {
-        method: "DELETE",
-        credentials: "include"
+        method: "DELETE"
     });
 
     if (response.ok) {
