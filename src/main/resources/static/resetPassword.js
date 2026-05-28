@@ -40,7 +40,8 @@ document.getElementById('reset-form').addEventListener('submit', async (e) => {
         const res = await fetch('/auth/reset', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ token, password: nuevaPassword })
+            body: JSON.stringify({ token, password: nuevaPassword }),
+            credentials: "include"
         });
 
         if (res.ok) {

@@ -108,7 +108,8 @@ reservaForm.addEventListener("submit", async (e) => {
             "Accept":       "application/json",
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(reserva)
+        body: JSON.stringify(reserva),
+        credentials: "include"
     });
 
     if (response.ok) {
@@ -155,7 +156,8 @@ async function cancelarReserva(id) {
     if (!result.isConfirmed) return;
 
     const response = await fetch(`/reservas/${id}`, {
-        method: "DELETE"
+        method: "DELETE",
+        credentials: "include"
     });
 
     if (response.ok) {
