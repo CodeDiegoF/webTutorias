@@ -79,8 +79,7 @@ signUpForm.addEventListener('submit', async (e) => {
         const res = await fetch('/auth/registro', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nombre, email, password }),
-            credentials: "include"
+            body: JSON.stringify({ nombre, email, password })
         });
 
         if (res.ok) {
@@ -115,8 +114,7 @@ signInForm.addEventListener('submit', async (e) => {
         const res = await fetch('/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password }),
-            credentials: "include"
+            body: JSON.stringify({ email, password })
         });
 
         if (res.ok) {
