@@ -5,6 +5,8 @@ import com.webTutoria.tutorias.repositorio.ReservaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
@@ -85,25 +87,29 @@ public class ReservaService {
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Reserva no encontrada."));
 
-        // Guardamos los datos estrictamente necesarios en variables locales
+        // Guardamos los datos en variables locales antes de borrar
         String nombreAlumno = reserva.getNombreAlumno();
         String emailAlumno = reserva.getEmailAlumno();
         String fecha = reserva.getFecha().toString();
         String hora = reserva.getHora().toString();
 
-        // Liberamos el horario asignado
+        // Modificamos el horario
         horarioRepository.findByFechaAndHora(reserva.getFecha(), reserva.getHora())
                 .ifPresent(horario -> {
                     horario.setDisponible(true);
-                    horarioRepository.saveAndFlush(horario);
+                    horarioRepository.save(horario);
                 });
 
-        // Borramos físicamente de la base de datos
+        // Solicitamos el borrado
         reservaRepository.delete(reserva);
-        reservaRepository.flush();
 
-        // Enviamos el email AL FINAL usando las variables locales seguras
-        emailService.notificarProfesorCancelacion(nombreAlumno, emailAlumno, fecha, hora);
+        // El truco maestro: El correo se enviará JUSTO DESPUÉS del commit exitoso
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override
+            public void afterCommit() {
+                emailService.notificarProfesorCancelacion(nombreAlumno, emailAlumno, fecha, hora);
+            }
+        });
     }
 
     /**

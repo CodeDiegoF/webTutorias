@@ -5,6 +5,8 @@ import com.webTutoria.tutorias.repositorio.ReservaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
@@ -68,27 +70,29 @@ public class HorarioService {
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Horario no encontrado."));
 
-        // Buscamos la reserva asociada si existe
         reservaRepository.findByFechaAndHora(horario.getFecha(), horario.getHora())
                 .stream().findFirst()
                 .ifPresent(reserva -> {
-                    // Extraemos los datos a variables locales antes del borrado
+                    // Capturamos variables locales
                     String emailAlumno = reserva.getEmailAlumno();
                     String nombreAlumno = reserva.getNombreAlumno();
                     String fecha = horario.getFecha().toString();
                     String hora = horario.getHora().toString();
 
-                    // Eliminamos la reserva primero
+                    // Borramos la reserva asociada
                     reservaRepository.delete(reserva);
-                    reservaRepository.flush();
 
-                    // Disparamos el email asíncrono de forma segura
-                    emailService.notificarAlumnoHorarioEliminado(emailAlumno, nombreAlumno, fecha, hora);
+                    //  Registramos el envío del email para después del commit
+                    TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+                        @Override
+                        public void afterCommit() {
+                            emailService.notificarAlumnoHorarioEliminado(emailAlumno, nombreAlumno, fecha, hora);
+                        }
+                    });
                 });
 
-        // Finalmente borramos el horario
+        // Borramos el horario
         horarioRepository.delete(horario);
-        horarioRepository.flush();
     }
 
     /**
