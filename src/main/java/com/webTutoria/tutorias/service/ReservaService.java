@@ -85,24 +85,25 @@ public class ReservaService {
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Reserva no encontrada."));
 
-        // Notificar al profesor de la cancelacion
-        emailService.notificarProfesorCancelacion(
-                reserva.getNombreAlumno(),
-                reserva.getEmailAlumno(),
-                reserva.getFecha().toString(),
-                reserva.getHora().toString()
-        );
+        // Guardamos los datos estrictamente necesarios en variables locales
+        String nombreAlumno = reserva.getNombreAlumno();
+        String emailAlumno = reserva.getEmailAlumno();
+        String fecha = reserva.getFecha().toString();
+        String hora = reserva.getHora().toString();
 
-        // Modificamos el horario
+        // Liberamos el horario asignado
         horarioRepository.findByFechaAndHora(reserva.getFecha(), reserva.getHora())
                 .ifPresent(horario -> {
                     horario.setDisponible(true);
-                    horarioRepository.saveAndFlush(horario); // <-- Forzamos el guardado inmediato
+                    horarioRepository.saveAndFlush(horario);
                 });
 
-        // Eliminamos la reserva pasando el objeto directamente
+        // Borramos físicamente de la base de datos
         reservaRepository.delete(reserva);
-        reservaRepository.flush(); // <-- Forzamos el borrado inmediato en TiDB Cloud
+        reservaRepository.flush();
+
+        // Enviamos el email AL FINAL usando las variables locales seguras
+        emailService.notificarProfesorCancelacion(nombreAlumno, emailAlumno, fecha, hora);
     }
 
     /**

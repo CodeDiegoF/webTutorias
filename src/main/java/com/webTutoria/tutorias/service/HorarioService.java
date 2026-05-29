@@ -66,25 +66,29 @@ public class HorarioService {
     public void eliminarHorario(Long id) {
         Horario horario = horarioRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Horario no encontrada."));
+                        HttpStatus.NOT_FOUND, "Horario no encontrado."));
 
-        // Si tiene reserva asociada, notificar al alumno y eliminarla
+        // Buscamos la reserva asociada si existe
         reservaRepository.findByFechaAndHora(horario.getFecha(), horario.getHora())
                 .stream().findFirst()
                 .ifPresent(reserva -> {
-                    emailService.notificarAlumnoHorarioEliminado(
-                            reserva.getEmailAlumno(),
-                            reserva.getNombreAlumno(),
-                            horario.getFecha().toString(),
-                            horario.getHora().toString()
-                    );
+                    // Extraemos los datos a variables locales antes del borrado
+                    String emailAlumno = reserva.getEmailAlumno();
+                    String nombreAlumno = reserva.getNombreAlumno();
+                    String fecha = horario.getFecha().toString();
+                    String hora = horario.getHora().toString();
+
+                    // Eliminamos la reserva primero
                     reservaRepository.delete(reserva);
-                    reservaRepository.flush(); // <-- Obligamos a TiDB a borrar la reserva PRIMERO
+                    reservaRepository.flush();
+
+                    // Disparamos el email asíncrono de forma segura
+                    emailService.notificarAlumnoHorarioEliminado(emailAlumno, nombreAlumno, fecha, hora);
                 });
 
-        // Ahora que la reserva se borró físicamente en la BD, borramos el horario
+        // Finalmente borramos el horario
         horarioRepository.delete(horario);
-        horarioRepository.flush(); // <-- Obligamos a TiDB a borrar el horario SEGUNDO
+        horarioRepository.flush();
     }
 
     /**
