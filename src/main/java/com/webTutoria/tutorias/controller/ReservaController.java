@@ -7,6 +7,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/reservas")
+@CrossOrigin(origins = "*")
 /**
  * Gestiona la API REST de reservas de tutorias.
  */
