@@ -3,6 +3,7 @@ package com.webTutoria.tutorias.service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,6 +27,7 @@ public class EmailService {
     /**
      * Notifica al profesor cuando un alumno reserva una tutoría.
      */
+    @Async
     public void notificarProfesorReserva(String nombreAlumno, String emailAlumno,
                                          String fecha, String hora) {
         SimpleMailMessage msg = new SimpleMailMessage();
@@ -42,6 +44,7 @@ public class EmailService {
     /**
      * Notifica al profesor cuando un alumno cancela una reserva.
      */
+    @Async
     public void notificarProfesorCancelacion(String nombreAlumno, String emailAlumno,
                                              String fecha, String hora) {
         SimpleMailMessage msg = new SimpleMailMessage();
@@ -58,6 +61,7 @@ public class EmailService {
     /**
      * Notifica al alumno cuando el profesor elimina un horario con reserva asociada.
      */
+    @Async
     public void notificarAlumnoHorarioEliminado(String emailAlumno, String nombreAlumno,
                                                 String fecha, String hora) {
         SimpleMailMessage msg = new SimpleMailMessage();
@@ -76,6 +80,7 @@ public class EmailService {
     /**
      * Envia el email de recuperación de contraseña con el enlace.
      */
+    @Async
     public void enviarRecuperacion(String emailDestino, String token) {
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setFrom(emailRemitente);
