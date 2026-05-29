@@ -93,13 +93,16 @@ public class ReservaService {
                 reserva.getHora().toString()
         );
 
+        // Modificamos el horario
         horarioRepository.findByFechaAndHora(reserva.getFecha(), reserva.getHora())
                 .ifPresent(horario -> {
                     horario.setDisponible(true);
-                    horarioRepository.save(horario);
+                    horarioRepository.saveAndFlush(horario); // <-- Forzamos el guardado inmediato
                 });
 
-        reservaRepository.deleteById(id);
+        // Eliminamos la reserva pasando el objeto directamente
+        reservaRepository.delete(reserva);
+        reservaRepository.flush(); // <-- Forzamos el borrado inmediato en TiDB Cloud
     }
 
     /**

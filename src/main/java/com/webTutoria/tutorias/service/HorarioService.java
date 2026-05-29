@@ -79,9 +79,12 @@ public class HorarioService {
                             horario.getHora().toString()
                     );
                     reservaRepository.delete(reserva);
+                    reservaRepository.flush(); // <-- Obligamos a TiDB a borrar la reserva PRIMERO
                 });
 
-        horarioRepository.deleteById(id);
+        // Ahora que la reserva se borró físicamente en la BD, borramos el horario
+        horarioRepository.delete(horario);
+        horarioRepository.flush(); // <-- Obligamos a TiDB a borrar el horario SEGUNDO
     }
 
     /**
