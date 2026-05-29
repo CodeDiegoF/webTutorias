@@ -4,6 +4,7 @@ import com.webTutoria.tutorias.repositorio.HorarioRepository;
 import com.webTutoria.tutorias.repositorio.ReservaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
@@ -61,6 +62,7 @@ public class HorarioService {
      * Elimina un horario por id. Si existe una reserva en la misma fecha/hora,
      * primero elimina la reserva para mantener la consistencia.
      */
+    @Transactional
     public void eliminarHorario(Long id) {
         Horario horario = horarioRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
